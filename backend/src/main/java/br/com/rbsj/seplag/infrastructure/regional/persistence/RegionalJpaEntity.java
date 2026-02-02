@@ -1,11 +1,11 @@
 package br.com.rbsj.seplag.infrastructure.regional.persistence;
 
+import br.com.rbsj.seplag.infrastructure.persistence.AuditableEntity;
 import jakarta.persistence.*;
-import java.time.Instant;
 
 @Entity
 @Table(name = "regionais")
-public class RegionalJpaEntity {
+public class RegionalJpaEntity extends AuditableEntity {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -20,12 +20,6 @@ public class RegionalJpaEntity {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 
-    @Column(name = "criado_em", nullable = false, columnDefinition = "TIMESTAMP")
-    private Instant criadoEm;
-
-    @Column(name = "atualizado_em", nullable = false, columnDefinition = "TIMESTAMP")
-    private Instant atualizadoEm;
-
     public RegionalJpaEntity() {
     }
 
@@ -33,16 +27,12 @@ public class RegionalJpaEntity {
             String id,
             Integer idExterno,
             String nome,
-            Boolean ativo,
-            Instant criadoEm,
-            Instant atualizadoEm
+            Boolean ativo
     ) {
         this.id = id;
         this.idExterno = idExterno;
         this.nome = nome;
         this.ativo = ativo;
-        this.criadoEm = criadoEm;
-        this.atualizadoEm = atualizadoEm;
     }
 
     public String getId() {
@@ -75,21 +65,5 @@ public class RegionalJpaEntity {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
-    }
-
-    public Instant getCriadoEm() {
-        return criadoEm;
-    }
-
-    public void setCriadoEm(Instant criadoEm) {
-        this.criadoEm = criadoEm;
-    }
-
-    public Instant getAtualizadoEm() {
-        return atualizadoEm;
-    }
-
-    public void setAtualizadoEm(Instant atualizadoEm) {
-        this.atualizadoEm = atualizadoEm;
     }
 }

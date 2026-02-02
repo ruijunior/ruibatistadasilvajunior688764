@@ -19,12 +19,13 @@ public interface ArtistaJpaMapper {
     }
 
     default ArtistaJpaEntity toEntity(Artista domain) {
-        return new ArtistaJpaEntity(
+        var entity = new ArtistaJpaEntity(
                 domain.getId().getValue(),
                 domain.getNome(),
-                TipoArtistaJpa.valueOf(domain.getTipo().name()),
-                domain.getCriadoEm(),
-                domain.getAtualizadoEm()
+                TipoArtistaJpa.valueOf(domain.getTipo().name())
         );
+        entity.setCriadoEm(domain.getCriadoEm());
+        entity.setAtualizadoEm(domain.getAtualizadoEm());
+        return entity;
     }
 }

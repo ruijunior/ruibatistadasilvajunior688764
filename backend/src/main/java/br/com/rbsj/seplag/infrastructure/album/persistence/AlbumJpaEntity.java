@@ -1,11 +1,11 @@
 package br.com.rbsj.seplag.infrastructure.album.persistence;
 
+import br.com.rbsj.seplag.infrastructure.persistence.AuditableEntity;
 import jakarta.persistence.*;
-import java.time.Instant;
 
 @Entity
 @Table(name = "albuns")
-public class AlbumJpaEntity {
+public class AlbumJpaEntity extends AuditableEntity {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -20,12 +20,6 @@ public class AlbumJpaEntity {
     @Column(name = "url_capa", length = 500)
     private String urlCapa;
 
-    @Column(name = "criado_em", nullable = false, columnDefinition = "TIMESTAMP")
-    private Instant criadoEm;
-
-    @Column(name = "atualizado_em", nullable = false, columnDefinition = "TIMESTAMP")
-    private Instant atualizadoEm;
-
     public AlbumJpaEntity() {
     }
 
@@ -33,16 +27,12 @@ public class AlbumJpaEntity {
             String id,
             String titulo,
             Integer anoLancamento,
-            String urlCapa,
-            Instant criadoEm,
-            Instant atualizadoEm
+            String urlCapa
     ) {
         this.id = id;
         this.titulo = titulo;
         this.anoLancamento = anoLancamento;
         this.urlCapa = urlCapa;
-        this.criadoEm = criadoEm;
-        this.atualizadoEm = atualizadoEm;
     }
 
     public String getId() {
@@ -75,21 +65,5 @@ public class AlbumJpaEntity {
 
     public void setUrlCapa(String urlCapa) {
         this.urlCapa = urlCapa;
-    }
-
-    public Instant getCriadoEm() {
-        return criadoEm;
-    }
-
-    public void setCriadoEm(Instant criadoEm) {
-        this.criadoEm = criadoEm;
-    }
-
-    public Instant getAtualizadoEm() {
-        return atualizadoEm;
-    }
-
-    public void setAtualizadoEm(Instant atualizadoEm) {
-        this.atualizadoEm = atualizadoEm;
     }
 }

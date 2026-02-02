@@ -19,13 +19,14 @@ public interface AlbumJpaMapper {
     }
 
     default AlbumJpaEntity toEntity(Album domain) {
-        return new AlbumJpaEntity(
+        var entity = new AlbumJpaEntity(
                 domain.getId().getValue(),
                 domain.getTitulo(),
                 domain.getAnoLancamento(),
-                domain.getUrlCapa(),
-                domain.getCriadoEm(),
-                domain.getAtualizadoEm()
+                domain.getUrlCapa()
         );
+        entity.setCriadoEm(domain.getCriadoEm());
+        entity.setAtualizadoEm(domain.getAtualizadoEm());
+        return entity;
     }
 }

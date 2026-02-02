@@ -19,13 +19,14 @@ public interface RegionalJpaMapper {
     }
 
     default RegionalJpaEntity toEntity(Regional domain) {
-        return new RegionalJpaEntity(
+        var entity = new RegionalJpaEntity(
                 domain.getId().getValue(),
                 domain.getIdExterno(),
                 domain.getNome(),
-                domain.isAtivo(),
-                domain.getCriadoEm(),
-                domain.getAtualizadoEm()
+                domain.isAtivo()
         );
+        entity.setCriadoEm(domain.getCriadoEm());
+        entity.setAtualizadoEm(domain.getAtualizadoEm());
+        return entity;
     }
 }
