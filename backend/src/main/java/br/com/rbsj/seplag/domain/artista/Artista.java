@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Artista extends Entity {
 
-    private ArtistaID id;
+    private final ArtistaID id;
     private String nome;
     private TipoArtista tipo;
 

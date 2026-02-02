@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Regional extends Entity {
 
-    private RegionalID id;
+    private final RegionalID id;
     private String nome;
     private boolean ativo;
 

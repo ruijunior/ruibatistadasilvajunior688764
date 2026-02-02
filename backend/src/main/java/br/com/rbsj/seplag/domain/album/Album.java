@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Album extends Entity {
 
-    private AlbumID id;
+    private final AlbumID id;
     private String titulo;
     private Integer anoLancamento;
     private String urlCapa;
