@@ -3,20 +3,29 @@ package br.com.rbsj.seplag.infrastructure.regional.persistence;
 import br.com.rbsj.seplag.domain.regional.Regional;
 import br.com.rbsj.seplag.domain.regional.RegionalID;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RegionalJpaMapper {
 
-    @Mapping(target = "id", expression = "java(mapId(entity.getId()))")
-    @Mapping(target = "ativo", source = "ativo")
-    Regional toDomain(RegionalJpaEntity entity);
+    default Regional toDomain(RegionalJpaEntity entity) {
+        return Regional.with(
+                RegionalID.from(entity.getId()),
+                entity.getIdExterno(),
+                entity.getNome(),
+                entity.getAtivo(),
+                entity.getCriadoEm(),
+                entity.getAtualizadoEm()
+        );
+    }
 
-    @Mapping(target = "id", expression = "java(domain.getId().getValue())")
-    @Mapping(target = "ativo", source = "ativo")
-    RegionalJpaEntity toEntity(Regional domain);
-
-    default RegionalID mapId(String id) {
-        return RegionalID.from(id);
+    default RegionalJpaEntity toEntity(Regional domain) {
+        return new RegionalJpaEntity(
+                domain.getId().getValue(),
+                domain.getIdExterno(),
+                domain.getNome(),
+                domain.isAtivo(),
+                domain.getCriadoEm(),
+                domain.getAtualizadoEm()
+        );
     }
 }

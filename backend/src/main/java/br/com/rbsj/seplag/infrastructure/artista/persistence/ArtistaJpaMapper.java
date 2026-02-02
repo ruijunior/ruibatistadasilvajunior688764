@@ -4,28 +4,27 @@ import br.com.rbsj.seplag.domain.artista.Artista;
 import br.com.rbsj.seplag.domain.artista.ArtistaID;
 import br.com.rbsj.seplag.domain.artista.TipoArtista;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ArtistaJpaMapper {
 
-    @Mapping(target = "id", expression = "java(mapId(entity.getId()))")
-    @Mapping(target = "tipo", expression = "java(mapTipo(entity.getTipo()))")
-    Artista toDomain(ArtistaJpaEntity entity);
-
-    @Mapping(target = "id", expression = "java(domain.getId().getValue())")
-    @Mapping(target = "tipo", expression = "java(mapTipoJpa(domain.getTipo()))")
-    ArtistaJpaEntity toEntity(Artista domain);
-
-    default ArtistaID mapId(String id) {
-        return ArtistaID.from(id);
+    default Artista toDomain(ArtistaJpaEntity entity) {
+        return Artista.with(
+                ArtistaID.from(entity.getId()),
+                entity.getNome(),
+                TipoArtista.valueOf(entity.getTipo().name()),
+                entity.getCriadoEm(),
+                entity.getAtualizadoEm()
+        );
     }
 
-    default TipoArtista mapTipo(TipoArtistaJpa tipo) {
-        return TipoArtista.valueOf(tipo.name());
-    }
-
-    default TipoArtistaJpa mapTipoJpa(TipoArtista tipo) {
-        return TipoArtistaJpa.valueOf(tipo.name());
+    default ArtistaJpaEntity toEntity(Artista domain) {
+        return new ArtistaJpaEntity(
+                domain.getId().getValue(),
+                domain.getNome(),
+                TipoArtistaJpa.valueOf(domain.getTipo().name()),
+                domain.getCriadoEm(),
+                domain.getAtualizadoEm()
+        );
     }
 }
