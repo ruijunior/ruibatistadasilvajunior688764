@@ -9,8 +9,6 @@ public interface ArtistaGateway {
 
     Artista create(Artista artista);
 
-    void deleteById(ArtistaID id);
-
     Optional<Artista> findById(ArtistaID id);
 
     Artista update(Artista artista);

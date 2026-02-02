@@ -6,8 +6,6 @@ public interface RegionalGateway {
 
     Regional create(Regional regional);
 
-    void deleteById(RegionalID id);
-
     Regional findByNome(String nome);
 
     List<Regional> findAll();

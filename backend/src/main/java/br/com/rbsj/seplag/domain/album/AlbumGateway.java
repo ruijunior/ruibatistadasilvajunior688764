@@ -9,8 +9,6 @@ public interface AlbumGateway {
 
     Album create(Album album);
 
-    void deleteById(AlbumID id);
-
     Optional<Album> findById(AlbumID id);
 
     Album update(Album album);
