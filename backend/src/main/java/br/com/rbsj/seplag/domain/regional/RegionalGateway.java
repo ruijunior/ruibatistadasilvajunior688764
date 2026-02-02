@@ -8,6 +8,8 @@ public interface RegionalGateway {
 
     Regional findByNome(String nome);
 
+    Regional findByIdExterno(Integer idExterno);
+
     List<Regional> findAll();
 
     Regional update(Regional regional);

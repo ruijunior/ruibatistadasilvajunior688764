@@ -9,11 +9,13 @@ import java.util.Objects;
 public class Regional extends Entity {
 
     private final RegionalID id;
+    private Integer idExterno;
     private String nome;
     private boolean ativo;
 
     private Regional(
             RegionalID id,
+            Integer idExterno,
             String nome,
             boolean ativo,
             Instant criadoEm,
@@ -21,24 +23,26 @@ public class Regional extends Entity {
     ) {
         super(criadoEm, atualizadoEm);
         this.id = id;
+        this.idExterno = idExterno;
         this.nome = nome;
         this.ativo = ativo;
     }
 
-    public static Regional newRegional(String nome) {
+    public static Regional newRegional(Integer idExterno, String nome) {
         RegionalID id = RegionalID.unique();
         Instant now = Instant.now();
-        return new Regional(id, nome, true, now, now);
+        return new Regional(id, idExterno, nome, true, now, now);
     }
 
     public static Regional with(
             RegionalID id,
+            Integer idExterno,
             String nome,
             boolean ativo,
             Instant criadoEm,
             Instant atualizadoEm
     ) {
-        return new Regional(id, nome, ativo, criadoEm, atualizadoEm);
+        return new Regional(id, idExterno, nome, ativo, criadoEm, atualizadoEm);
     }
 
     public Regional update(String nome) {
@@ -72,6 +76,10 @@ public class Regional extends Entity {
 
     public RegionalID getId() {
         return id;
+    }
+
+    public Integer getIdExterno() {
+        return idExterno;
     }
 
     public String getNome() {

@@ -11,7 +11,7 @@ class RegionalTest {
     @Test
     @DisplayName("Deve criar regional com dados válidos")
     void deveCriarRegionalComDadosValidos() {
-        var regional = Regional.newRegional("Regional Centro-Norte");
+        var regional = Regional.newRegional(1, "Regional Centro-Norte");
 
         assertNotNull(regional);
         assertNotNull(regional.getId());
@@ -24,7 +24,7 @@ class RegionalTest {
     @Test
     @DisplayName("Deve criar regional ativo por padrão")
     void deveCriarRegionalAtivoPorPadrao() {
-        var regional = Regional.newRegional("Regional Sul");
+        var regional = Regional.newRegional(2, "Regional Sul");
 
         assertTrue(regional.isAtivo());
     }
@@ -33,7 +33,7 @@ class RegionalTest {
     @DisplayName("Deve lançar exceção quando nome for vazio")
     void deveLancarExcecaoQuandoNomeVazio() {
         var exception = assertThrows(IllegalArgumentException.class, () -> {
-            var regional = Regional.newRegional("");
+            var regional = Regional.newRegional(3, "");
             regional.validate();
         });
 
@@ -44,7 +44,7 @@ class RegionalTest {
     @DisplayName("Deve lançar exceção quando nome for null")
     void deveLancarExcecaoQuandoNomeNull() {
         var exception = assertThrows(IllegalArgumentException.class, () -> {
-            var regional = Regional.newRegional(null);
+            var regional = Regional.newRegional(4, null);
             regional.validate();
         });
 
@@ -54,7 +54,7 @@ class RegionalTest {
     @Test
     @DisplayName("Deve atualizar regional com sucesso")
     void deveAtualizarRegionalComSucesso() {
-        var regional = Regional.newRegional("Regional Norte");
+        var regional = Regional.newRegional(5, "Regional Norte");
         var timestampOriginal = regional.getAtualizadoEm();
 
         regional.update("Regional Centro-Norte");
@@ -67,7 +67,7 @@ class RegionalTest {
     @Test
     @DisplayName("Deve desativar regional")
     void deveDesativarRegional() {
-        var regional = Regional.newRegional("Regional Oeste");
+        var regional = Regional.newRegional(6, "Regional Oeste");
 
         regional.desativar();
 
@@ -79,7 +79,7 @@ class RegionalTest {
     void deveAtivarRegional() {
         var id = RegionalID.unique();
         var now = java.time.Instant.now();
-        var regional = Regional.with(id, "Regional Leste", false, now, now);
+        var regional = Regional.with(id, 7, "Regional Leste", false, now, now);
 
         regional.ativar();
 
@@ -89,7 +89,7 @@ class RegionalTest {
     @Test
     @DisplayName("Deve atualizar timestamp ao desativar")
     void deveAtualizarTimestampAoDesativar() {
-        var regional = Regional.newRegional("Regional Sul");
+        var regional = Regional.newRegional(8, "Regional Sul");
         var timestampOriginal = regional.getAtualizadoEm();
 
         regional.desativar();
@@ -104,7 +104,7 @@ class RegionalTest {
         var id = RegionalID.unique();
         var now = java.time.Instant.now();
 
-        var regional = Regional.with(id, "Regional Sudeste", true, now, now);
+        var regional = Regional.with(id, 9, "Regional Sudeste", true, now, now);
 
         assertEquals(id, regional.getId());
         assertEquals("Regional Sudeste", regional.getNome());
@@ -117,8 +117,8 @@ class RegionalTest {
     void duasRegionaisComMesmoIdDevemSerIguais() {
         var id = RegionalID.unique();
         var now = java.time.Instant.now();
-        var regional1 = Regional.with(id, "Regional 1", true, now, now);
-        var regional2 = Regional.with(id, "Regional 2", false, now, now);
+        var regional1 = Regional.with(id, 10, "Regional 1", true, now, now);
+        var regional2 = Regional.with(id, 11, "Regional 2", false, now, now);
 
         assertEquals(regional1, regional2);
         assertEquals(regional1.hashCode(), regional2.hashCode());
@@ -127,8 +127,8 @@ class RegionalTest {
     @Test
     @DisplayName("Duas regionais com IDs diferentes devem ser diferentes")
     void duasRegionaisComIdsDiferentesDevemSerDiferentes() {
-        var regional1 = Regional.newRegional("Regional Centro");
-        var regional2 = Regional.newRegional("Regional Centro");
+        var regional1 = Regional.newRegional(12, "Regional Centro");
+        var regional2 = Regional.newRegional(13, "Regional Centro");
 
         assertNotEquals(regional1, regional2);
     }
