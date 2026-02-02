@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,23 +35,6 @@ public class Artista extends BaseEntity {
         inverseJoinColumns = @JoinColumn(name = "album_id")
     )
     private Set<Album> albuns = new HashSet<>();
-
-    @Column(name = "criado_em", nullable = false, updatable = false)
-    private LocalDateTime criadoEm;
-
-    @Column(name = "atualizado_em")
-    private LocalDateTime atualizadoEm;
-
-    @PrePersist
-    protected void onCreate() {
-        criadoEm = LocalDateTime.now();
-        atualizadoEm = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        atualizadoEm = LocalDateTime.now();
-    }
 
     @Override
     public void validate() {

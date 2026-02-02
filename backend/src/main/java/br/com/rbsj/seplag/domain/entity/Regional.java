@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "regionais")
 @Data
@@ -25,23 +23,6 @@ public class Regional extends BaseEntity {
 
     @Column(nullable = false)
     private Boolean ativo = true;
-
-    @Column(name = "criado_em", nullable = false, updatable = false)
-    private LocalDateTime criadoEm;
-
-    @Column(name = "atualizado_em")
-    private LocalDateTime atualizadoEm;
-
-    @PrePersist
-    protected void onCreate() {
-        criadoEm = LocalDateTime.now();
-        atualizadoEm = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        atualizadoEm = LocalDateTime.now();
-    }
 
     @Override
     public void validate() {
