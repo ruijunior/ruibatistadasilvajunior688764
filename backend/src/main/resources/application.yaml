@@ -33,11 +33,12 @@ spring:
     validate-on-migrate: true
 
   security:
-    oauth2:
-      resourceserver:
-        jwt:
-          secret-key: ${JWT_SECRET:bXlzdXBlcnNlY3JldGtleWZvcnNlcGxhZ3Byb2plY3QyMDI2}
-          expiration-ms: ${JWT_EXPIRATION:300000}
+    # Configuração customizada agora usa jwt.* na raiz
+    enabled: true
+
+jwt:
+  secret-key: ${JWT_SECRET:bXlzdXBlcnNlY3JldGtleWZvcnNlcGxhZ3Byb2plY3QyMDI2}
+  expiration-ms: ${JWT_EXPIRATION:300000}
 
 springdoc:
   api-docs:
@@ -66,4 +67,4 @@ logging:
 # API Externa de Regionais
 api:
   regional:
-    url: ${REGIONAL_API_URL:https://api.externa.com.br}
+    url: ${REGIONAL_API_URL:https://integrador-argus-api.geia.vip/v1/regionais}
