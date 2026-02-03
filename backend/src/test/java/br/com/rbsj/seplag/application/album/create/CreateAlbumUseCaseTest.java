@@ -26,8 +26,8 @@ class CreateAlbumUseCaseTest {
     @Test
     @DisplayName("Deve criar album com dados válidos")
     void deveCriarAlbumComDadosValidos() {
-        var command = CreateAlbumCommand.with("Toxicity", 2001, null);
-        var album = Album.newAlbum("Toxicity", 2001);
+        var command = CreateAlbumCommand.with("Album Test 1", 2001, null);
+        var album = Album.newAlbum("Album Test 1", 2001);
         
         when(gateway.create(any(Album.class))).thenReturn(album);
         
@@ -35,7 +35,7 @@ class CreateAlbumUseCaseTest {
 
         assertNotNull(output);
         assertNotNull(output.id());
-        assertEquals("Toxicity", output.titulo());
+        assertEquals("Album Test 1", output.titulo());
         assertEquals(2001, output.anoLancamento());
         assertNotNull(output.criadoEm());
         

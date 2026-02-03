@@ -9,15 +9,15 @@ public record AlbumListOutput(
         String id,
         String titulo,
         Integer anoLancamento,
-        String urlCapa,
+        java.util.Set<String> capas,
         Set<String> artistaIds
 ) {
-    public static AlbumListOutput from(Album album) {
+    public static AlbumListOutput from(Album album, java.util.Set<String> signedCapas) {
         return new AlbumListOutput(
                 album.getId().getValue(),
                 album.getTitulo(),
                 album.getAnoLancamento(),
-                album.getUrlCapa(),
+                signedCapas,
                 album.getArtistas().stream()
                         .map(id -> id.getValue())
                         .collect(Collectors.toSet())

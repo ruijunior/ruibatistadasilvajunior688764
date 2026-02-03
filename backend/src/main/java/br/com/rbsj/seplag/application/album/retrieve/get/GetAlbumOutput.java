@@ -8,16 +8,16 @@ public record GetAlbumOutput(
         String id,
         String titulo,
         Integer anoLancamento,
-        String urlCapa,
+        java.util.Set<String> capas,
         Instant criadoEm,
         Instant atualizadoEm
 ) {
-    public static GetAlbumOutput from(Album album) {
+    public static GetAlbumOutput from(Album album, java.util.Set<String> signedCapas) {
         return new GetAlbumOutput(
                 album.getId().getValue(),
                 album.getTitulo(),
                 album.getAnoLancamento(),
-                album.getUrlCapa(),
+                signedCapas,
                 album.getCriadoEm(),
                 album.getAtualizadoEm()
         );

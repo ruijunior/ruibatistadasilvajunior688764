@@ -8,9 +8,11 @@ import java.util.Objects;
 public class GetAlbumByIdUseCase {
 
     private final AlbumGateway gateway;
+    private final br.com.rbsj.seplag.domain.storage.StorageGateway storageGateway;
 
-    public GetAlbumByIdUseCase(AlbumGateway gateway) {
+    public GetAlbumByIdUseCase(AlbumGateway gateway, br.com.rbsj.seplag.domain.storage.StorageGateway storageGateway) {
         this.gateway = Objects.requireNonNull(gateway);
+        this.storageGateway = Objects.requireNonNull(storageGateway);
     }
 
     public GetAlbumOutput execute(GetAlbumByIdQuery query) {
@@ -19,6 +21,10 @@ public class GetAlbumByIdUseCase {
         var album = this.gateway.findById(albumId)
                 .orElseThrow(() -> new IllegalArgumentException("Álbum não encontrado: " + query.id()));
 
-        return GetAlbumOutput.from(album);
+        var signedCapas = album.getCapas().stream()
+                .map(storageGateway::generatePresignedGetUrl)
+                .collect(java.util.stream.Collectors.toSet());
+
+        return GetAlbumOutput.from(album, signedCapas);
     }
 }

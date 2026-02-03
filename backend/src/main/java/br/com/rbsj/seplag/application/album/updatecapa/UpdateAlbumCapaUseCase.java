@@ -19,7 +19,7 @@ public class UpdateAlbumCapaUseCase {
         var album = this.gateway.findById(albumId)
                 .orElseThrow(() -> new IllegalArgumentException("Álbum não encontrado: " + command.id()));
 
-        album.updateUrlCapa(command.urlCapa());
+        album.addCapa(command.urlCapa());
 
         this.gateway.update(album);
     }

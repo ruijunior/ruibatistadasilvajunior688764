@@ -9,9 +9,11 @@ import java.util.Objects;
 public class ListAlbunsUseCase {
 
     private final AlbumGateway gateway;
+    private final br.com.rbsj.seplag.domain.storage.StorageGateway storageGateway;
 
-    public ListAlbunsUseCase(AlbumGateway gateway) {
+    public ListAlbunsUseCase(AlbumGateway gateway, br.com.rbsj.seplag.domain.storage.StorageGateway storageGateway) {
         this.gateway = Objects.requireNonNull(gateway);
+        this.storageGateway = Objects.requireNonNull(storageGateway);
     }
 
     public Pagination<AlbumListOutput> execute(ListAlbunsQuery query) {
@@ -30,7 +32,12 @@ public class ListAlbunsUseCase {
                 pagination.perPage(),
                 pagination.total(),
                 pagination.items().stream()
-                        .map(AlbumListOutput::from)
+                        .map(album -> {
+                            var signedCapas = album.getCapas().stream()
+                                    .map(storageGateway::generatePresignedGetUrl)
+                                    .collect(java.util.stream.Collectors.toSet());
+                            return AlbumListOutput.from(album, signedCapas);
+                        })
                         .toList()
         );
     }
