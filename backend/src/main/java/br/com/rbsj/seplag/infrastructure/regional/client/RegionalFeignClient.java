@@ -12,6 +12,6 @@ import java.util.List;
 )
 public interface RegionalFeignClient {
 
-    @GetMapping("/api/regionais")
+    @GetMapping("")
     List<RegionalExternaDTO> getRegionais();
 }
