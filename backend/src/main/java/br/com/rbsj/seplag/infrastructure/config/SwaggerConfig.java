@@ -22,6 +22,6 @@ public class SwaggerConfig {
                         .description("API REST para gerenciamento de artistas e álbuns - Processo Seletivo SEPLAG")
                         .contact(new Contact()
                                 .name("Rui Batista da Silva Junior")
-                                .email("ruijunior@example.com")));
+                                .email("ruibatistasilvajunior@gmail.com")));
     }
 }
