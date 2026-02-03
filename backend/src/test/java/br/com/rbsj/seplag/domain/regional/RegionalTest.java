@@ -14,7 +14,8 @@ class RegionalTest {
         var regional = Regional.newRegional(1, "Regional Centro-Norte");
 
         assertNotNull(regional);
-        assertNotNull(regional.getId());
+        // ID é gerado pelo banco (Identity), então é null ao criar via newRegional
+        assertNull(regional.getId());
         assertEquals("Regional Centro-Norte", regional.getNome());
         assertTrue(regional.isAtivo());
         assertNotNull(regional.getCriadoEm());
@@ -77,7 +78,7 @@ class RegionalTest {
     @Test
     @DisplayName("Deve ativar regional")
     void deveAtivarRegional() {
-        var id = RegionalID.unique();
+        var id = RegionalID.from(1L);
         var now = java.time.Instant.now();
         var regional = Regional.with(id, 7, "Regional Leste", false, now, now);
 
@@ -101,7 +102,7 @@ class RegionalTest {
     @Test
     @DisplayName("Deve criar regional usando método with")
     void deveCriarRegionalUsandoWith() {
-        var id = RegionalID.unique();
+        var id = RegionalID.from(2L);
         var now = java.time.Instant.now();
 
         var regional = Regional.with(id, 9, "Regional Sudeste", true, now, now);
@@ -115,7 +116,7 @@ class RegionalTest {
     @Test
     @DisplayName("Duas regionais com mesmo ID devem ser iguais")
     void duasRegionaisComMesmoIdDevemSerIguais() {
-        var id = RegionalID.unique();
+        var id = RegionalID.from(3L);
         var now = java.time.Instant.now();
         var regional1 = Regional.with(id, 10, "Regional 1", true, now, now);
         var regional2 = Regional.with(id, 11, "Regional 2", false, now, now);

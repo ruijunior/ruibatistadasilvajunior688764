@@ -8,8 +8,9 @@ import jakarta.persistence.*;
 public class RegionalJpaEntity extends AuditableEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private String id;
+    private Long id;
 
     @Column(name = "id_externo")
     private Integer idExterno;
@@ -24,7 +25,7 @@ public class RegionalJpaEntity extends AuditableEntity {
     }
 
     public RegionalJpaEntity(
-            String id,
+            Long id,
             Integer idExterno,
             String nome,
             Boolean ativo
@@ -35,11 +36,11 @@ public class RegionalJpaEntity extends AuditableEntity {
         this.ativo = ativo;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

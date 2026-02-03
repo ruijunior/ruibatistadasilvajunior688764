@@ -19,8 +19,9 @@ public interface RegionalJpaMapper {
     }
 
     default RegionalJpaEntity toEntity(Regional domain) {
+        Long id = domain.getId() != null ? domain.getId().asLong() : null;
         var entity = new RegionalJpaEntity(
-                domain.getId().getValue(),
+                id,
                 domain.getIdExterno(),
                 domain.getNome(),
                 domain.isAtivo()

@@ -15,10 +15,8 @@ ALTER TABLE albuns DROP CONSTRAINT IF EXISTS albuns_pkey;
 ALTER TABLE albuns ALTER COLUMN id TYPE VARCHAR(255);
 ALTER TABLE albuns ADD PRIMARY KEY (id);
 
--- 3. Regionais
-ALTER TABLE regionais DROP CONSTRAINT IF EXISTS regionais_pkey;
-ALTER TABLE regionais ALTER COLUMN id TYPE VARCHAR(255);
-ALTER TABLE regionais ADD PRIMARY KEY (id);
+-- 3. Regionais (Mantém ID como Integer/BigSerial conforme requisito)
+-- Não altera para VARCHAR
 
 -- 4. Atualizar tabela de relacionamento artista_album para acompanhar mudança de tipo
 ALTER TABLE artista_album ALTER COLUMN artista_id TYPE VARCHAR(255);

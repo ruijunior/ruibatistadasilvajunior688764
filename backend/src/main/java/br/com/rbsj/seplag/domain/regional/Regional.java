@@ -29,9 +29,8 @@ public class Regional extends Entity {
     }
 
     public static Regional newRegional(Integer idExterno, String nome) {
-        RegionalID id = RegionalID.unique();
         Instant now = Instant.now();
-        return new Regional(id, idExterno, nome, true, now, now);
+        return new Regional(null, idExterno, nome, true, now, now);
     }
 
     public static Regional with(
