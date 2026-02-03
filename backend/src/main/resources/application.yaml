@@ -62,3 +62,8 @@ logging:
     root: INFO
     br.com.rbsj.seplag: DEBUG
     org.springframework.security: DEBUG
+
+# API Externa de Regionais
+api:
+  regional:
+    url: ${REGIONAL_API_URL:https://api.externa.com.br}
