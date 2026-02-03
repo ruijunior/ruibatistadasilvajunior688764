@@ -36,7 +36,8 @@ spring:
 
 jwt:
   secret-key: ${JWT_SECRET:bXlzdXBlcnNlY3JldGtleWZvcnNlcGxhZ3Byb2plY3QyMDI2}
-  expiration-ms: ${JWT_EXPIRATION:300000}
+  expiration-ms: ${JWT_EXPIRATION:300000} # 5 minutos
+  refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION:86400000} # 24 horas
 
 springdoc:
   api-docs:

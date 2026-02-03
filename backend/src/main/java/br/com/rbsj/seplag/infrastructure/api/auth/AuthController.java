@@ -39,9 +39,30 @@ public class AuthController {
         );
 
         var userDetails = userDetailsService.loadUserByUsername(request.username());
-        var token = jwtService.generateToken(userDetails);
-        var response = LoginResponse.from(token, jwtExpiration);
+        var accessToken = jwtService.generateToken(userDetails);
+        var refreshToken = jwtService.generateRefreshToken(userDetails);
+        
+        var response = LoginResponse.from(accessToken, refreshToken, jwtExpiration);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponse> refresh(@RequestBody RefreshTokenRequest request) {
+        String username = jwtService.extractUsername(request.refreshToken());
+        
+        if (username != null) {
+            var userDetails = userDetailsService.loadUserByUsername(username);
+            
+            if (jwtService.isTokenValid(request.refreshToken(), userDetails)) {
+                var accessToken = jwtService.generateToken(userDetails);
+                var refreshToken = jwtService.generateRefreshToken(userDetails); 
+                
+                var response = LoginResponse.from(accessToken, refreshToken, jwtExpiration);
+                return ResponseEntity.ok(response);
+            }
+        }
+        
+        return ResponseEntity.status(org.springframework.http.HttpStatus.FORBIDDEN).build();
     }
 }
