@@ -14,14 +14,14 @@ public class Album extends Entity {
     private final AlbumID id;
     private String titulo;
     private Integer anoLancamento;
-    private String urlCapa;
+    private Set<String> capas;
     private Set<ArtistaID> artistas;
 
     private Album(
             AlbumID id,
             String titulo,
             Integer anoLancamento,
-            String urlCapa,
+            Set<String> capas,
             Instant criadoEm,
             Instant atualizadoEm
     ) {
@@ -29,7 +29,7 @@ public class Album extends Entity {
         this.id = id;
         this.titulo = titulo;
         this.anoLancamento = anoLancamento;
-        this.urlCapa = urlCapa;
+        this.capas = capas != null ? capas : new java.util.HashSet<>();
         this.artistas = new java.util.HashSet<>();
     }
 
@@ -43,11 +43,11 @@ public class Album extends Entity {
             AlbumID id,
             String titulo,
             Integer anoLancamento,
-            String urlCapa,
+            Set<String> capas,
             Instant criadoEm,
             Instant atualizadoEm
     ) {
-        return new Album(id, titulo, anoLancamento, urlCapa, criadoEm, atualizadoEm);
+        return new Album(id, titulo, anoLancamento, capas, criadoEm, atualizadoEm);
     }
 
     public Album update(String titulo, Integer anoLancamento) {
@@ -57,10 +57,19 @@ public class Album extends Entity {
         return this;
     }
 
-    public Album updateUrlCapa(String urlCapa) {
-        this.urlCapa = urlCapa;
+    public void addCapa(String capa) {
+        if (this.capas == null) {
+            this.capas = new java.util.HashSet<>();
+        }
+        this.capas.add(capa);
         this.atualizarTimestamp();
-        return this;
+    }
+
+    public void removeCapa(String capa) {
+        if (this.capas != null) {
+            this.capas.remove(capa);
+            this.atualizarTimestamp();
+        }
     }
 
     @Override
@@ -86,8 +95,8 @@ public class Album extends Entity {
         return anoLancamento;
     }
 
-    public String getUrlCapa() {
-        return urlCapa;
+    public Set<String> getCapas() {
+        return Collections.unmodifiableSet(capas != null ? capas : Collections.emptySet());
     }
 
     public Set<ArtistaID> getArtistas() {

@@ -13,7 +13,7 @@ public interface AlbumJpaMapper {
                 AlbumID.from(entity.getId()),
                 entity.getTitulo(),
                 entity.getAnoLancamento(),
-                entity.getUrlCapa(),
+                entity.getCapas(),
                 entity.getCriadoEm(),
                 entity.getAtualizadoEm()
         );
@@ -28,7 +28,7 @@ public interface AlbumJpaMapper {
                 domain.getId().getValue(),
                 domain.getTitulo(),
                 domain.getAnoLancamento(),
-                domain.getUrlCapa()
+                domain.getCapas()
         );
         entity.setCriadoEm(domain.getCriadoEm());
         entity.setAtualizadoEm(domain.getAtualizadoEm());

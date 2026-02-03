@@ -21,8 +21,10 @@ public class AlbumJpaEntity extends AuditableEntity {
     @Column(name = "ano_lancamento")
     private Integer anoLancamento;
 
-    @Column(name = "url_capa", length = 500)
-    private String urlCapa;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "album_capas", joinColumns = @JoinColumn(name = "album_id"))
+    @Column(name = "url_capa")
+    private Set<String> capas = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -39,12 +41,12 @@ public class AlbumJpaEntity extends AuditableEntity {
             String id,
             String titulo,
             Integer anoLancamento,
-            String urlCapa
+            Set<String> capas
     ) {
         this.id = id;
         this.titulo = titulo;
         this.anoLancamento = anoLancamento;
-        this.urlCapa = urlCapa;
+        this.capas = capas;
     }
 
     public String getId() {
@@ -71,12 +73,12 @@ public class AlbumJpaEntity extends AuditableEntity {
         this.anoLancamento = anoLancamento;
     }
 
-    public String getUrlCapa() {
-        return urlCapa;
+    public Set<String> getCapas() {
+        return capas;
     }
 
-    public void setUrlCapa(String urlCapa) {
-        this.urlCapa = urlCapa;
+    public void setCapas(Set<String> capas) {
+        this.capas = capas;
     }
 
     public Set<ArtistaJpaEntity> getArtistas() {

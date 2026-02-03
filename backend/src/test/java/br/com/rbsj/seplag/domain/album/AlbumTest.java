@@ -11,13 +11,13 @@ class AlbumTest {
     @Test
     @DisplayName("Deve criar album com dados válidos")
     void deveCriarAlbumComDadosValidos() {
-        var album = Album.newAlbum("Harakiri", 2012);
+        var album = Album.newAlbum("Album Test 1", 2012);
 
         assertNotNull(album);
         assertNotNull(album.getId());
-        assertEquals("Harakiri", album.getTitulo());
+        assertEquals("Album Test 1", album.getTitulo());
         assertEquals(2012, album.getAnoLancamento());
-        assertNull(album.getUrlCapa());
+        assertTrue(album.getCapas().isEmpty());
         assertNotNull(album.getCriadoEm());
         assertNotNull(album.getAtualizadoEm());
     }
@@ -25,9 +25,9 @@ class AlbumTest {
     @Test
     @DisplayName("Deve criar album sem ano de lançamento")
     void deveCriarAlbumSemAnoLancamento() {
-        var album = Album.newAlbum("Post Traumatic", null);
+        var album = Album.newAlbum("Post Test 1", null);
 
-        assertEquals("Post Traumatic", album.getTitulo());
+        assertEquals("Post Test 1", album.getTitulo());
         assertNull(album.getAnoLancamento());
     }
 
@@ -56,25 +56,25 @@ class AlbumTest {
     @Test
     @DisplayName("Deve atualizar album com sucesso")
     void deveAtualizarAlbumComSucesso() {
-        var album = Album.newAlbum("Post Traumatic EP", 2018);
+        var album = Album.newAlbum("Post Test 1 EP", 2018);
         var timestampOriginal = album.getAtualizadoEm();
 
-        album.update("Post Traumatic", 2018);
+        album.update("Post Test 1", 2018);
 
-        assertEquals("Post Traumatic", album.getTitulo());
+        assertEquals("Post Test 1", album.getTitulo());
         assertEquals(2018, album.getAnoLancamento());
         assertTrue(album.getAtualizadoEm().isAfter(timestampOriginal) || 
                    album.getAtualizadoEm().equals(timestampOriginal));
     }
-
+    
     @Test
-    @DisplayName("Deve atualizar URL da capa")
-    void deveAtualizarUrlDaCapa() {
-        var album = Album.newAlbum("Use Your Illusion I", 1991);
+    @DisplayName("Deve adicionar capa ao álbum")
+    void deveAdicionarCapaAoAlbum() {
+        var album = Album.newAlbum("Use sua imaginacao I", 1991);
 
-        album.updateUrlCapa("https://minio.local/capas/use-your-illusion-i.jpg");
+        album.addCapa("https://minio.local/capas/use-sua-imaginacao-1.jpg");
 
-        assertEquals("https://minio.local/capas/use-your-illusion-i.jpg", album.getUrlCapa());
+        assertTrue(album.getCapas().contains("https://minio.local/capas/use-sua-imaginacao-1.jpg"));
     }
 
     @Test
@@ -82,13 +82,14 @@ class AlbumTest {
     void deveCriarAlbumUsandoWith() {
         var id = AlbumID.unique();
         var now = java.time.Instant.now();
+        var capas = java.util.Set.of("url-capa");
 
-        var album = Album.with(id, "Bem Sertanejo", 2009, "url-capa", now, now);
+        var album = Album.with(id, "Bem Sertanejo", 2009, capas, now, now);
 
         assertEquals(id, album.getId());
         assertEquals("Bem Sertanejo", album.getTitulo());
         assertEquals(2009, album.getAnoLancamento());
-        assertEquals("url-capa", album.getUrlCapa());
+        assertEquals(capas, album.getCapas());
     }
 
     @Test
@@ -96,8 +97,8 @@ class AlbumTest {
     void doisAlbunsComMesmoIdDevemSerIguais() {
         var id = AlbumID.unique();
         var now = java.time.Instant.now();
-        var album1 = Album.with(id, "Album 1", 2020, null, now, now);
-        var album2 = Album.with(id, "Album 2", 2021, null, now, now);
+        var album1 = Album.with(id, "Album 1", 2020, java.util.Collections.emptySet(), now, now);
+        var album2 = Album.with(id, "Album 2", 2021, java.util.Collections.emptySet(), now, now);
 
         assertEquals(album1, album2);
         assertEquals(album1.hashCode(), album2.hashCode());
@@ -106,8 +107,8 @@ class AlbumTest {
     @Test
     @DisplayName("Dois albuns com IDs diferentes devem ser diferentes")
     void doisAlbunsComIdsDiferentesDevemSerDiferentes() {
-        var album1 = Album.newAlbum("Greatest Hits", 2004);
-        var album2 = Album.newAlbum("Greatest Hits", 2004);
+        var album1 = Album.newAlbum("Hits Test 1", 2004);
+        var album2 = Album.newAlbum("Hits Test 1", 2004);
 
         assertNotEquals(album1, album2);
     }
