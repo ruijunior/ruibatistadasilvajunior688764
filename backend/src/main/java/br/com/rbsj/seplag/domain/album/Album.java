@@ -6,6 +6,7 @@ import br.com.rbsj.seplag.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,8 +30,8 @@ public class Album extends Entity {
         this.id = id;
         this.titulo = titulo;
         this.anoLancamento = anoLancamento;
-        this.capas = capas != null ? capas : new java.util.HashSet<>();
-        this.artistas = new java.util.HashSet<>();
+        this.capas = capas != null ? new HashSet<>(capas) : new HashSet<>();
+        this.artistas = new HashSet<>();
     }
 
     public static Album newAlbum(String titulo, Integer anoLancamento) {
@@ -59,7 +60,7 @@ public class Album extends Entity {
 
     public void addCapa(String capa) {
         if (this.capas == null) {
-            this.capas = new java.util.HashSet<>();
+            this.capas = new HashSet<>();
         }
         this.capas.add(capa);
         this.atualizarTimestamp();
@@ -103,7 +104,7 @@ public class Album extends Entity {
         return Collections.unmodifiableSet(artistas);
     }
 
-    public void addArtista(br.com.rbsj.seplag.domain.artista.ArtistaID artistaID) {
+    public void addArtista(ArtistaID artistaID) {
         this.artistas.add(artistaID);
         this.atualizarTimestamp();
     }

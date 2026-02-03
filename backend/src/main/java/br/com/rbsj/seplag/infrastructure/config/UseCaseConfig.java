@@ -1,6 +1,7 @@
 package br.com.rbsj.seplag.infrastructure.config;
 
 import br.com.rbsj.seplag.application.album.create.CreateAlbumUseCase;
+import br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdUseCase;
 import br.com.rbsj.seplag.application.album.retrieve.list.ListAlbunsUseCase;
 import br.com.rbsj.seplag.application.album.updatecapa.UpdateAlbumCapaUseCase;
 import br.com.rbsj.seplag.application.album.upload.GeneratePresignedUrlUseCase;
@@ -77,8 +78,8 @@ public class UseCaseConfig {
     }
     
     @Bean
-    public br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdUseCase getAlbumByIdUseCase() {
-        return new br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdUseCase(albumGateway, storageGateway);
+    public GetAlbumByIdUseCase getAlbumByIdUseCase() {
+        return new GetAlbumByIdUseCase(albumGateway, storageGateway);
     }
     
     @Bean

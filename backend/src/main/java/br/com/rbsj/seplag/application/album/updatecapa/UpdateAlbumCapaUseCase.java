@@ -2,6 +2,7 @@ package br.com.rbsj.seplag.application.album.updatecapa;
 
 import br.com.rbsj.seplag.domain.album.AlbumGateway;
 import br.com.rbsj.seplag.domain.album.AlbumID;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public class UpdateAlbumCapaUseCase {
         this.gateway = Objects.requireNonNull(gateway);
     }
 
+    @Transactional
     public void execute(UpdateAlbumCapaCommand command) {
         var albumId = AlbumID.from(command.id());
 

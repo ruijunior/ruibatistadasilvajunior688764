@@ -4,6 +4,8 @@ import br.com.rbsj.seplag.domain.album.Album;
 import br.com.rbsj.seplag.domain.album.AlbumID;
 import br.com.rbsj.seplag.domain.artista.ArtistaID;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface AlbumJpaMapper {
@@ -32,6 +34,12 @@ public interface AlbumJpaMapper {
         );
         entity.setCriadoEm(domain.getCriadoEm());
         entity.setAtualizadoEm(domain.getAtualizadoEm());
+        entity.setAtualizadoEm(domain.getAtualizadoEm());
         return entity;
     }
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "criadoEm", ignore = true)
+    @Mapping(target = "artistas", ignore = true)
+    void updateEntityFromDomain(Album domain, @MappingTarget AlbumJpaEntity entity);
 }

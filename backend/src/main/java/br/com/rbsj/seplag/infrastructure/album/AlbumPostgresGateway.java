@@ -49,8 +49,13 @@ public class AlbumPostgresGateway implements AlbumGateway {
 
     @Override
     public Album update(Album album) {
-        var entity = mapper.toEntity(album);
+        var entity = repository.findById(album.getId().getValue())
+                .orElseThrow(() -> new IllegalArgumentException("Album not found"));
 
+        mapper.updateEntityFromDomain(album, entity);
+
+        // Manter artistas sincronizados
+        entity.getArtistas().clear(); // Limpa e readiciona para garantir sync
         album.getArtistas().forEach(artistaID -> {
             artistaRepository.findById(artistaID.getValue()).ifPresent(artistaEntity ->
                 entity.getArtistas().add(artistaEntity)
