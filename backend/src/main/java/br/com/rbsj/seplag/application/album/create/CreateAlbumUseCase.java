@@ -15,6 +15,9 @@ public class CreateAlbumUseCase {
 
     public CreateAlbumOutput execute(CreateAlbumCommand command) {
         var album = Album.newAlbum(command.titulo(), command.anoLancamento());
+        
+        command.artistas().forEach(id -> album.addArtista(br.com.rbsj.seplag.domain.artista.ArtistaID.from(id)));
+        
         album.validate();
         
         var created = this.gateway.create(album);

@@ -2,13 +2,14 @@ package br.com.rbsj.seplag.infrastructure.album.persistence;
 
 import br.com.rbsj.seplag.domain.album.Album;
 import br.com.rbsj.seplag.domain.album.AlbumID;
+import br.com.rbsj.seplag.domain.artista.ArtistaID;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface AlbumJpaMapper {
 
     default Album toDomain(AlbumJpaEntity entity) {
-        return Album.with(
+        var album = Album.with(
                 AlbumID.from(entity.getId()),
                 entity.getTitulo(),
                 entity.getAnoLancamento(),
@@ -16,6 +17,10 @@ public interface AlbumJpaMapper {
                 entity.getCriadoEm(),
                 entity.getAtualizadoEm()
         );
+        entity.getArtistas().forEach(artista -> 
+            album.addArtista(ArtistaID.from(artista.getId()))
+        );
+        return album;
     }
 
     default AlbumJpaEntity toEntity(Album domain) {

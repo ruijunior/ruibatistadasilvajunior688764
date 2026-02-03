@@ -1,10 +1,13 @@
 package br.com.rbsj.seplag.domain.album;
 
 import br.com.rbsj.seplag.domain.Entity;
+import br.com.rbsj.seplag.domain.artista.ArtistaID;
 import br.com.rbsj.seplag.domain.validation.ValidationHandler;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 public class Album extends Entity {
 
@@ -12,6 +15,7 @@ public class Album extends Entity {
     private String titulo;
     private Integer anoLancamento;
     private String urlCapa;
+    private Set<ArtistaID> artistas;
 
     private Album(
             AlbumID id,
@@ -26,6 +30,7 @@ public class Album extends Entity {
         this.titulo = titulo;
         this.anoLancamento = anoLancamento;
         this.urlCapa = urlCapa;
+        this.artistas = new java.util.HashSet<>();
     }
 
     public static Album newAlbum(String titulo, Integer anoLancamento) {
@@ -83,6 +88,15 @@ public class Album extends Entity {
 
     public String getUrlCapa() {
         return urlCapa;
+    }
+
+    public Set<ArtistaID> getArtistas() {
+        return Collections.unmodifiableSet(artistas);
+    }
+
+    public void addArtista(br.com.rbsj.seplag.domain.artista.ArtistaID artistaID) {
+        this.artistas.add(artistaID);
+        this.atualizarTimestamp();
     }
 
     @Override

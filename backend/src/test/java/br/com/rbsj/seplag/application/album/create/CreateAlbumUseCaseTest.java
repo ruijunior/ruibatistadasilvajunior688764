@@ -26,7 +26,7 @@ class CreateAlbumUseCaseTest {
     @Test
     @DisplayName("Deve criar album com dados válidos")
     void deveCriarAlbumComDadosValidos() {
-        var command = CreateAlbumCommand.with("Toxicity", 2001);
+        var command = CreateAlbumCommand.with("Toxicity", 2001, null);
         var album = Album.newAlbum("Toxicity", 2001);
         
         when(gateway.create(any(Album.class))).thenReturn(album);
@@ -45,7 +45,7 @@ class CreateAlbumUseCaseTest {
     @Test
     @DisplayName("Deve lançar exceção quando titulo for null")
     void deveLancarExcecaoQuandoTituloNull() {
-        var command = CreateAlbumCommand.with(null, 2000);
+        var command = CreateAlbumCommand.with(null, 2000, null);
 
         assertThrows(IllegalArgumentException.class, () -> useCase.execute(command));
         

@@ -1,7 +1,11 @@
 package br.com.rbsj.seplag.infrastructure.album.persistence;
 
+import br.com.rbsj.seplag.infrastructure.artista.persistence.ArtistaJpaEntity;
 import br.com.rbsj.seplag.infrastructure.persistence.AuditableEntity;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "albuns")
@@ -19,6 +23,14 @@ public class AlbumJpaEntity extends AuditableEntity {
 
     @Column(name = "url_capa", length = 500)
     private String urlCapa;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "artista_album",
+            joinColumns = @JoinColumn(name = "album_id"),
+            inverseJoinColumns = @JoinColumn(name = "artista_id")
+    )
+    private Set<ArtistaJpaEntity> artistas = new HashSet<>();
 
     public AlbumJpaEntity() {
     }
@@ -65,5 +77,9 @@ public class AlbumJpaEntity extends AuditableEntity {
 
     public void setUrlCapa(String urlCapa) {
         this.urlCapa = urlCapa;
+    }
+
+    public Set<ArtistaJpaEntity> getArtistas() {
+        return artistas;
     }
 }

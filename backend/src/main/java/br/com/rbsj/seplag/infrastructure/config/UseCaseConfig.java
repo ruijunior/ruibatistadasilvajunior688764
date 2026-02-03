@@ -67,6 +67,11 @@ public class UseCaseConfig {
         return new UpdateAlbumCapaUseCase(albumGateway);
     }
 
+    @Bean
+    public br.com.rbsj.seplag.application.album.retrieve.list.ListAlbunsUseCase listAlbunsUseCase() {
+        return new br.com.rbsj.seplag.application.album.retrieve.list.ListAlbunsUseCase(albumGateway);
+    }
+
     // Regional
     @Bean
     public ListRegionaisUseCase listRegionaisUseCase() {

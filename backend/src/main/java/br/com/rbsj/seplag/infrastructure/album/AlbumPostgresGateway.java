@@ -7,6 +7,8 @@ import br.com.rbsj.seplag.domain.pagination.Pagination;
 import br.com.rbsj.seplag.domain.pagination.SearchQuery;
 import br.com.rbsj.seplag.infrastructure.album.persistence.AlbumJpaMapper;
 import br.com.rbsj.seplag.infrastructure.album.persistence.AlbumRepository;
+import br.com.rbsj.seplag.infrastructure.album.persistence.AlbumSpecification;
+import br.com.rbsj.seplag.infrastructure.artista.persistence.ArtistaRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -16,17 +18,31 @@ import java.util.Optional;
 @Component
 public class AlbumPostgresGateway implements AlbumGateway {
 
+    public static final String ORDER_ASC = "asc";
     private final AlbumRepository repository;
+    private final ArtistaRepository artistaRepository;
     private final AlbumJpaMapper mapper;
 
-    public AlbumPostgresGateway(AlbumRepository repository, AlbumJpaMapper mapper) {
+    public AlbumPostgresGateway(
+            AlbumRepository repository,
+            ArtistaRepository artistaRepository,
+            AlbumJpaMapper mapper
+    ) {
         this.repository = repository;
+        this.artistaRepository = artistaRepository;
         this.mapper = mapper;
     }
 
     @Override
     public Album create(Album album) {
         var entity = mapper.toEntity(album);
+        
+        album.getArtistas().forEach(artistaID -> {
+            artistaRepository.findById(artistaID.getValue()).ifPresent(artistaEntity -> 
+                entity.getArtistas().add(artistaEntity)
+            );
+        });
+        
         var saved = repository.save(entity);
         return mapper.toDomain(saved);
     }
@@ -34,6 +50,13 @@ public class AlbumPostgresGateway implements AlbumGateway {
     @Override
     public Album update(Album album) {
         var entity = mapper.toEntity(album);
+
+        album.getArtistas().forEach(artistaID -> {
+            artistaRepository.findById(artistaID.getValue()).ifPresent(artistaEntity ->
+                entity.getArtistas().add(artistaEntity)
+            );
+        });
+
         var updated = repository.save(entity);
         return mapper.toDomain(updated);
     }
@@ -46,12 +69,14 @@ public class AlbumPostgresGateway implements AlbumGateway {
 
     @Override
     public Pagination<Album> findAll(SearchQuery query) {
-        var sort = query.direction().equalsIgnoreCase("asc")
+        var sort = query.direction().equalsIgnoreCase(ORDER_ASC)
                 ? Sort.by(query.sort()).ascending()
                 : Sort.by(query.sort()).descending();
 
         var pageRequest = PageRequest.of(query.page(), query.perPage(), sort);
-        var page = repository.findAll(pageRequest);
+        var spec = AlbumSpecification.withFilter(query.terms());
+        
+        var page = repository.findAll(spec, pageRequest);
 
         return new Pagination<>(
                 page.getNumber(),
