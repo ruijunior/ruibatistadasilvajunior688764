@@ -67,7 +67,7 @@ class SyncRegionaisUseCaseTest {
     }
 
     @Test
-    @DisplayName("Deve inativar e criar nova quando nome mudar (regra 3 do edital)")
+    @DisplayName("Deve inativar e criar nova quando nome mudar (regra 3)")
     void deveInativarECriarNovaQuandoNomeMudar() {
         
         var regionalInterna = Regional.newRegional(1, "Regional Norte");

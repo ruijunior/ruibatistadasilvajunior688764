@@ -31,7 +31,7 @@ class GetArtistaByIdUseCaseTest {
     @DisplayName("Deve buscar artista por ID")
     void deveBuscarArtistaPorId() {
         var artistaId = ArtistaID.unique();
-        var artista = Artista.newArtista("System of a Down", TipoArtista.BANDA);
+        var artista = Artista.newArtista("Artista Test1 ", TipoArtista.BANDA);
         var query = GetArtistaByIdQuery.with(artistaId.getValue());
         
         when(gateway.findById(any(ArtistaID.class))).thenReturn(Optional.of(artista));
@@ -39,7 +39,7 @@ class GetArtistaByIdUseCaseTest {
         var output = useCase.execute(query);
 
         assertNotNull(output);
-        assertEquals("System of a Down", output.nome());
+        assertEquals("Artista Test1 ", output.nome());
         assertEquals(TipoArtista.BANDA, output.tipo());
         assertNotNull(output.criadoEm());
         assertNotNull(output.atualizadoEm());

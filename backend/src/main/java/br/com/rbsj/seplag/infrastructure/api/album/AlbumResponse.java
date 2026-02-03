@@ -8,7 +8,7 @@ public record AlbumResponse(
         String id,
         String titulo,
         Integer anoLancamento,
-        String urlCapa,
+        java.util.Set<String> capas,
         Instant criadoEm,
         Instant atualizadoEm
 ) {
@@ -17,7 +17,7 @@ public record AlbumResponse(
                 output.id(),
                 output.titulo(),
                 output.anoLancamento(),
-                output.urlCapa(),
+                output.capas(),
                 output.criadoEm(),
                 output.atualizadoEm()
         );

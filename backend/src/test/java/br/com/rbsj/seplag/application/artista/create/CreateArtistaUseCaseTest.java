@@ -67,8 +67,8 @@ class CreateArtistaUseCaseTest {
     @Test
     @DisplayName("Deve criar artista do tipo BANDA")
     void deveCriarArtistaTipoBanda() {
-        var command = CreateArtistaCommand.with("System of a Down", TipoArtista.BANDA);
-        var artista = Artista.newArtista("System of a Down", TipoArtista.BANDA);
+        var command = CreateArtistaCommand.with("Artista Test1 ", TipoArtista.BANDA);
+        var artista = Artista.newArtista("Artista Test1 ", TipoArtista.BANDA);
         
         when(gateway.create(any(Artista.class))).thenReturn(artista);
 

@@ -7,6 +7,9 @@ import br.com.rbsj.seplag.application.album.retrieve.list.ListAlbunsQuery;
 import br.com.rbsj.seplag.application.album.retrieve.list.ListAlbunsUseCase;
 import br.com.rbsj.seplag.application.album.updatecapa.UpdateAlbumCapaCommand;
 import br.com.rbsj.seplag.application.album.updatecapa.UpdateAlbumCapaUseCase;
+import br.com.rbsj.seplag.application.album.upload.GeneratePresignedUrlCommand;
+import br.com.rbsj.seplag.application.album.upload.GeneratePresignedUrlOutput;
+import br.com.rbsj.seplag.application.album.upload.GeneratePresignedUrlUseCase;
 import br.com.rbsj.seplag.infrastructure.api.PaginatedResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +23,21 @@ public class AlbumController {
     private final CreateAlbumUseCase createUseCase;
     private final UpdateAlbumCapaUseCase updateCapaUseCase;
     private final ListAlbunsUseCase listUseCase;
+    private final br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdUseCase getByIdUseCase;
+    private final GeneratePresignedUrlUseCase generatePresignedUrlUseCase;
 
     public AlbumController(
             CreateAlbumUseCase createUseCase,
             UpdateAlbumCapaUseCase updateCapaUseCase,
-            ListAlbunsUseCase listUseCase
+            ListAlbunsUseCase listUseCase,
+            br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdUseCase getByIdUseCase,
+            GeneratePresignedUrlUseCase generatePresignedUrlUseCase
     ) {
         this.createUseCase = createUseCase;
         this.updateCapaUseCase = updateCapaUseCase;
         this.listUseCase = listUseCase;
+        this.getByIdUseCase = getByIdUseCase;
+        this.generatePresignedUrlUseCase = generatePresignedUrlUseCase;
     }
 
     @PostMapping
@@ -42,7 +51,7 @@ public class AlbumController {
                         output.id(),
                         output.titulo(),
                         output.anoLancamento(),
-                        null,
+                        java.util.Collections.emptySet(),
                         output.criadoEm(),
                         output.criadoEm()
                 ));
@@ -57,6 +66,16 @@ public class AlbumController {
         updateCapaUseCase.execute(command);
         
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/presigned-url")
+    public ResponseEntity<GeneratePresignedUrlOutput> generatePresignedUrl(
+            @PathVariable String id,
+            @RequestBody GeneratePresignedUrlRequest request
+    ) {
+        var command = new GeneratePresignedUrlCommand(id, request.contentType());
+        var output = generatePresignedUrlUseCase.execute(command);
+        return ResponseEntity.ok(output);
     }
 
     @GetMapping
@@ -78,5 +97,12 @@ public class AlbumController {
         );
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumOutput> getById(@PathVariable String id) {
+        var query = new br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdQuery(id);
+        var output = getByIdUseCase.execute(query);
+        return ResponseEntity.ok(output);
     }
 }

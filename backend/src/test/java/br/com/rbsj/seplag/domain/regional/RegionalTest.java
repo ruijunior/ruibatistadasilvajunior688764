@@ -14,7 +14,7 @@ class RegionalTest {
         var regional = Regional.newRegional(1, "Regional Centro-Norte");
 
         assertNotNull(regional);
-        // ID é gerado pelo banco (Identity), então é null ao criar via newRegional
+
         assertNull(regional.getId());
         assertEquals("Regional Centro-Norte", regional.getNome());
         assertTrue(regional.isAtivo());
