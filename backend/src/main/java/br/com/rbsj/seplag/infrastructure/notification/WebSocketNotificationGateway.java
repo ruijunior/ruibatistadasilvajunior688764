@@ -2,9 +2,11 @@ package br.com.rbsj.seplag.infrastructure.notification;
 
 import br.com.rbsj.seplag.domain.album.Album;
 import br.com.rbsj.seplag.domain.notification.NotificationGateway;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class WebSocketNotificationGateway implements NotificationGateway {
 
@@ -16,8 +18,7 @@ public class WebSocketNotificationGateway implements NotificationGateway {
 
     @Override
     public void notifyNewAlbum(Album album) {
-        // Envia o objeto álbum completo para o tópico /topic/albuns
-        // O Frontend (Angular) vai assinar esse tópico para exibir o alerta
+        log.debug("Notificando novo álbum via WebSocket: id={} titulo={}", album.getId().getValue(), album.getTitulo());
         template.convertAndSend("/topic/albuns", album);
     }
 }

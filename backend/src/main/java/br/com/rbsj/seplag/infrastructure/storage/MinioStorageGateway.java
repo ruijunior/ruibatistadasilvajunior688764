@@ -4,11 +4,13 @@ import br.com.rbsj.seplag.domain.storage.StorageGateway;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.http.Method;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 public class MinioStorageGateway implements StorageGateway {
 
@@ -39,6 +41,7 @@ public class MinioStorageGateway implements StorageGateway {
                             .build()
             );
         } catch (Exception e) {
+            log.error("Erro ao gerar URL presigned PUT do MinIO: objectName={}", objectName, e);
             throw new RuntimeException("Erro ao gerar URL presigned do MinIO", e);
         }
     }
@@ -55,9 +58,7 @@ public class MinioStorageGateway implements StorageGateway {
                             .build()
             );
         } catch (Exception e) {
-            // Se der erro ao gerar URL (ex: objeto não existe), retornamos o próprio nome ou tratamos.
-            // Aqui vamos logar e retornar o path original ou lançar erro.
-            // Para "listar", pode ser melhor só retornar null ou o path original se falhar.
+            log.error("Erro ao gerar URL presigned GET do MinIO: objectName={}", objectName, e);
             throw new RuntimeException("Erro ao gerar URL GET presigned do MinIO", e);
         }
     }
