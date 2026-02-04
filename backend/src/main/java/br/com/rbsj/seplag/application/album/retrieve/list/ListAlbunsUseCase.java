@@ -3,15 +3,17 @@ package br.com.rbsj.seplag.application.album.retrieve.list;
 import br.com.rbsj.seplag.domain.album.AlbumGateway;
 import br.com.rbsj.seplag.domain.pagination.Pagination;
 import br.com.rbsj.seplag.domain.pagination.SearchQuery;
+import br.com.rbsj.seplag.domain.storage.StorageGateway;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ListAlbunsUseCase {
 
     private final AlbumGateway gateway;
-    private final br.com.rbsj.seplag.domain.storage.StorageGateway storageGateway;
+    private final StorageGateway storageGateway;
 
-    public ListAlbunsUseCase(AlbumGateway gateway, br.com.rbsj.seplag.domain.storage.StorageGateway storageGateway) {
+    public ListAlbunsUseCase(AlbumGateway gateway, StorageGateway storageGateway) {
         this.gateway = Objects.requireNonNull(gateway);
         this.storageGateway = Objects.requireNonNull(storageGateway);
     }
@@ -22,7 +24,8 @@ public class ListAlbunsUseCase {
                 query.perPage(),
                 query.terms(),
                 query.sort(),
-                query.direction()
+                query.direction(),
+                query.tipoArtista()
         );
 
         var pagination = this.gateway.findAll(searchQuery);
@@ -35,7 +38,7 @@ public class ListAlbunsUseCase {
                         .map(album -> {
                             var signedCapas = album.getCapas().stream()
                                     .map(storageGateway::generatePresignedGetUrl)
-                                    .collect(java.util.stream.Collectors.toSet());
+                                    .collect(Collectors.toSet());
                             return AlbumListOutput.from(album, signedCapas);
                         })
                         .toList()

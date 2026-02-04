@@ -2,6 +2,9 @@ package br.com.rbsj.seplag.infrastructure.api.album;
 
 import br.com.rbsj.seplag.application.album.create.CreateAlbumCommand;
 import br.com.rbsj.seplag.application.album.create.CreateAlbumUseCase;
+import br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdQuery;
+import br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdUseCase;
+import br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumOutput;
 import br.com.rbsj.seplag.application.album.retrieve.list.AlbumListOutput;
 import br.com.rbsj.seplag.application.album.retrieve.list.ListAlbunsQuery;
 import br.com.rbsj.seplag.application.album.retrieve.list.ListAlbunsUseCase;
@@ -23,14 +26,14 @@ public class AlbumController {
     private final CreateAlbumUseCase createUseCase;
     private final UpdateAlbumCapaUseCase updateCapaUseCase;
     private final ListAlbunsUseCase listUseCase;
-    private final br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdUseCase getByIdUseCase;
+    private final GetAlbumByIdUseCase getByIdUseCase;
     private final GeneratePresignedUrlUseCase generatePresignedUrlUseCase;
 
     public AlbumController(
             CreateAlbumUseCase createUseCase,
             UpdateAlbumCapaUseCase updateCapaUseCase,
             ListAlbunsUseCase listUseCase,
-            br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdUseCase getByIdUseCase,
+            GetAlbumByIdUseCase getByIdUseCase,
             GeneratePresignedUrlUseCase generatePresignedUrlUseCase
     ) {
         this.createUseCase = createUseCase;
@@ -44,7 +47,7 @@ public class AlbumController {
     public ResponseEntity<AlbumResponse> create(@RequestBody CreateAlbumRequest request) {
         var command = CreateAlbumCommand.with(request.titulo(), request.anoLancamento(), request.artistas());
         var output = createUseCase.execute(command);
-        
+
         return ResponseEntity
                 .created(URI.create("/api/v1/albuns/" + output.id()))
                 .body(new AlbumResponse(
@@ -64,7 +67,7 @@ public class AlbumController {
     ) {
         var command = UpdateAlbumCapaCommand.with(id, urlCapa);
         updateCapaUseCase.execute(command);
-        
+
         return ResponseEntity.noContent().build();
     }
 
@@ -84,9 +87,10 @@ public class AlbumController {
             @RequestParam(defaultValue = "10") int perPage,
             @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "titulo") String sort,
-            @RequestParam(defaultValue = "asc") String dir
+            @RequestParam(defaultValue = "asc") String dir,
+            @RequestParam(required = false) String tipo
     ) {
-        var query = new ListAlbunsQuery(page, perPage, search, sort, dir);
+        var query = new ListAlbunsQuery(page, perPage, search, sort, dir, tipo);
         var output = listUseCase.execute(query);
 
         var response = new PaginatedResponse<>(
@@ -100,8 +104,8 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumOutput> getById(@PathVariable String id) {
-        var query = new br.com.rbsj.seplag.application.album.retrieve.get.GetAlbumByIdQuery(id);
+    public ResponseEntity<GetAlbumOutput> getById(@PathVariable String id) {
+        var query = new GetAlbumByIdQuery(id);
         var output = getByIdUseCase.execute(query);
         return ResponseEntity.ok(output);
     }

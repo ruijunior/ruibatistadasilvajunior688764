@@ -5,8 +5,20 @@ public record ListAlbunsQuery(
         int perPage,
         String terms,
         String sort,
-        String direction
+        String direction,
+        String tipoArtista
 ) {
+    public static ListAlbunsQuery with(
+            int page,
+            int perPage,
+            String terms,
+            String sort,
+            String direction,
+            String tipoArtista
+    ) {
+        return new ListAlbunsQuery(page, perPage, terms, sort, direction, tipoArtista);
+    }
+
     public static ListAlbunsQuery with(
             int page,
             int perPage,
@@ -14,6 +26,6 @@ public record ListAlbunsQuery(
             String sort,
             String direction
     ) {
-        return new ListAlbunsQuery(page, perPage, terms, sort, direction);
+        return new ListAlbunsQuery(page, perPage, terms, sort, direction, null);
     }
 }

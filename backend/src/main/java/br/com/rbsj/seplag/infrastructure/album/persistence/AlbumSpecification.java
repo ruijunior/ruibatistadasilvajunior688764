@@ -1,6 +1,7 @@
 package br.com.rbsj.seplag.infrastructure.album.persistence;
 
 import br.com.rbsj.seplag.infrastructure.artista.persistence.ArtistaJpaEntity;
+import br.com.rbsj.seplag.infrastructure.artista.persistence.TipoArtistaJpa;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,6 +33,23 @@ public class AlbumSpecification {
             query.distinct(true);
 
             return cb.or(titlePredicate, yearPredicate, artistPredicate);
+        };
+    }
+
+    public static Specification<AlbumJpaEntity> withTipoArtista(String tipoArtista) {
+        return (root, query, cb) -> {
+            if (!StringUtils.hasText(tipoArtista)) {
+                return cb.conjunction();
+            }
+
+            try {
+                TipoArtistaJpa tipo = TipoArtistaJpa.valueOf(tipoArtista.toUpperCase());
+                Join<AlbumJpaEntity, ArtistaJpaEntity> artistasJoin = root.join("artistas", JoinType.INNER);
+                query.distinct(true);
+                return cb.equal(artistasJoin.get("tipo"), tipo);
+            } catch (IllegalArgumentException e) {
+                return cb.conjunction();
+            }
         };
     }
 }

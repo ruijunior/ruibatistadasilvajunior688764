@@ -5,6 +5,11 @@ public record SearchQuery(
         int perPage,
         String terms,
         String sort,
-        String direction
+        String direction,
+        String tipoArtista
 ) {
+
+    public SearchQuery(int page, int perPage, String terms, String sort, String direction) {
+        this(page, perPage, terms, sort, direction, null);
+    }
 }

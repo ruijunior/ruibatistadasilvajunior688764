@@ -79,7 +79,10 @@ public class AlbumPostgresGateway implements AlbumGateway {
                 : Sort.by(query.sort()).descending();
 
         var pageRequest = PageRequest.of(query.page(), query.perPage(), sort);
-        var spec = AlbumSpecification.withFilter(query.terms());
+        
+        // Combina filtro por termo + filtro por tipo de artista
+        var spec = AlbumSpecification.withFilter(query.terms())
+                .and(AlbumSpecification.withTipoArtista(query.tipoArtista()));
         
         var page = repository.findAll(spec, pageRequest);
 
