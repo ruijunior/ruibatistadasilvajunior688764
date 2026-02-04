@@ -471,20 +471,6 @@ Notificações em tempo real (ex.: novo álbum cadastrado) sem polling. STOMP pa
 
 ---
 
-## O que NÃO foi Implementado (ou está em evolução)
-
-### Frontend
-
-Não há frontend neste repositório; o escopo do processo seletivo foi apenas o backend. A API está pronta para ser consumida por qualquer cliente (Angular, React, Vue, Postman, etc.).
-
-### RBAC (controle de acesso por perfis)
-
-**O que é RBAC:** *Role-Based Access Control* — controle de acesso baseado em papéis. Cada usuário tem uma ou mais roles (ex.: `USER`, `ADMIN`), e cada endpoint pode exigir uma role específica (ex.: só `ADMIN` pode criar ou excluir; `USER` só pode listar e visualizar).
-
-**Neste projeto:** A autenticação é por JWT e está implementada; porém não há distinção de perfis (roles). Qualquer usuário autenticado pode acessar todos os endpoints protegidos. A base com Spring Security está pronta para evoluir para RBAC quando necessário.
-
----
-
 ## Estrutura do Projeto
 
 ```
@@ -507,16 +493,6 @@ backend/
 ├── docker-compose.yml           # Orquestração de containers
 └── README.md                    # Este arquivo
 ```
-
----
-
-## Próximos Passos (Melhorias Futuras)
-
-- [ ] RBAC (ROLE_USER, ROLE_ADMIN) para restringir endpoints por perfil
-- [ ] Cache (ex.: Redis) para consultas mais acessadas
-- [ ] Métricas (Micrometer + Prometheus) e circuit breaker (Resilience4j) para a API externa
-- [ ] Validação de upload (tipo e tamanho de arquivo)
-- [ ] Logs em formato estruturado (ex.: JSON) para ferramentas de observabilidade
 
 ---
 
