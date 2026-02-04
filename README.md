@@ -119,32 +119,32 @@ Logs estratégicos em pontos chave (auth, criação de álbum, sync de regionais
 
 ### Funcionalidades Implementadas
 
-#### Requisitos Gerais ✅
+#### Requisitos Gerais 
 
-- ✅ Segurança: bloqueio de acesso por domínio (CORS configurado)
-- ✅ Autenticação JWT com expiração 5 min + renovação
-- ✅ POST, PUT, GET implementados
-- ✅ Paginação na consulta de álbuns
-- ✅ Consultas parametrizadas: álbuns por tipo (CANTOR/BANDA)
-- ✅ Consultas por nome do artista com ordenação alfabética (asc/desc)
-- ✅ Upload de múltiplas imagens de capa do álbum
-- ✅ Armazenamento no MinIO (API S3-compatible)
-- ✅ Links pré-assinados com expiração de 30 minutos
-- ✅ Versionamento de endpoints (`/api/v1/...`)
-- ✅ Flyway Migrations para criar e popular tabelas
-- ✅ Documentação OpenAPI/Swagger
+-  Segurança: bloqueio de acesso por domínio (CORS configurado)
+-  Autenticação JWT com expiração 5 min + renovação
+-  POST, PUT, GET implementados
+-  Paginação na consulta de álbuns
+-  Consultas parametrizadas: álbuns por tipo (CANTOR/BANDA)
+-  Consultas por nome do artista com ordenação alfabética (asc/desc)
+-  Upload de múltiplas imagens de capa do álbum
+-  Armazenamento no MinIO (API S3-compatible)
+-  Links pré-assinados com expiração de 30 minutos
+-  Versionamento de endpoints (`/api/v1/...`)
+-  Flyway Migrations para criar e popular tabelas
+-  Documentação OpenAPI/Swagger
 
-#### Requisitos Sênior ✅
+#### Requisitos Sênior 
 
-- ✅ Health Checks (Liveness/Readiness)
-- ✅ Testes unitários (Domain + Use Cases)
-- ✅ Testes de integração (Infrastructure com Testcontainers)
-- ✅ WebSocket para notificar frontend a cada novo álbum cadastrado
-- ✅ Rate Limit: 10 requisições por minuto por usuário
-- ✅ Endpoint de regionais:
-  - ✅ Importar lista da API externa
-  - ✅ Atributo "ativo" (boolean)
-  - ✅ Sincronização inteligente:
+-  Health Checks (Liveness/Readiness)
+-  Testes unitários (Domain + Use Cases)
+-  Testes de integração (Infrastructure com Testcontainers)
+-  WebSocket para notificar frontend a cada novo álbum cadastrado
+-  Rate Limit: 10 requisições por minuto por usuário
+-  Endpoint de regionais:
+  -  Importar lista da API externa
+  -  Atributo "ativo" (boolean)
+  -  Sincronização inteligente:
     - Novo no endpoint → inserir
     - Ausente no endpoint → inativar
     - Atributo alterado → inativar antigo e criar novo
@@ -390,6 +390,7 @@ curl -X POST http://localhost:8080/api/v1/auth/login \
 | POST | `/api/v1/regionais/sync` | Sincronizar com API externa | Sim |
 
 **Documentação completa:** http://localhost:8080/api/swagger-ui
+![swagger](image.png)
 
 ---
 
@@ -426,7 +427,7 @@ Notificações em tempo real (ex.: novo álbum cadastrado) sem polling. STOMP pa
 
 ## O que foi Implementado
 
-### ✅ Requisitos Obrigatórios
+### Requisitos Obrigatórios
 
 - [x] Segurança com bloqueio de domínios externos (CORS)
 - [x] Autenticação JWT (5 min) + Refresh Token (24h)
@@ -441,7 +442,7 @@ Notificações em tempo real (ex.: novo álbum cadastrado) sem polling. STOMP pa
 - [x] Flyway Migrations
 - [x] OpenAPI/Swagger
 
-### ✅ Requisitos Sênior
+### Requisitos Sênior
 
 - [x] Health Checks (Liveness/Readiness)
 - [x] Testes unitários (Domain + Use Cases)
@@ -450,7 +451,7 @@ Notificações em tempo real (ex.: novo álbum cadastrado) sem polling. STOMP pa
 - [x] Rate Limit (10 req/min por usuário)
 - [x] Sincronização de Regionais (API externa)
 
-### ✅ Entrega
+### Entrega
 
 - [x] Dockerfile (multi-stage build)
 - [x] docker-compose completo (API + PostgreSQL + MinIO)
@@ -473,4 +474,4 @@ Este projeto foi desenvolvido exclusivamente para o processo seletivo da SEPLAG/
 
 ---
 
-**Status do Projeto:** ✅ **Concluído e aderente a todos os requisitos do edital para ENGENHEIRO DA COMPUTAÇÃO - SÊNIOR (Backend Java)**
+**Status do Projeto:**  **Concluído e aderente a todos os requisitos do edital para ENGENHEIRO DA COMPUTAÇÃO - SÊNIOR (Backend Java)**
