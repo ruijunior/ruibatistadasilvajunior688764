@@ -14,6 +14,7 @@ import br.com.rbsj.seplag.application.regional.sync.RegionalExternaGateway;
 import br.com.rbsj.seplag.application.regional.sync.SyncRegionaisUseCase;
 import br.com.rbsj.seplag.domain.album.AlbumGateway;
 import br.com.rbsj.seplag.domain.artista.ArtistaGateway;
+import br.com.rbsj.seplag.domain.notification.NotificationGateway;
 import br.com.rbsj.seplag.domain.regional.RegionalGateway;
 import br.com.rbsj.seplag.domain.storage.StorageGateway;
 import org.springframework.context.annotation.Bean;
@@ -27,19 +28,22 @@ public class UseCaseConfig {
     private final RegionalGateway regionalGateway;
     private final RegionalExternaGateway regionalExternaGateway;
     private final StorageGateway storageGateway;
+    private final NotificationGateway notificationGateway;
 
     public UseCaseConfig(
             ArtistaGateway artistaGateway,
             AlbumGateway albumGateway,
             RegionalGateway regionalGateway,
             RegionalExternaGateway regionalExternaGateway,
-            StorageGateway storageGateway
+            StorageGateway storageGateway,
+            NotificationGateway notificationGateway
     ) {
         this.artistaGateway = artistaGateway;
         this.albumGateway = albumGateway;
         this.regionalGateway = regionalGateway;
         this.regionalExternaGateway = regionalExternaGateway;
         this.storageGateway = storageGateway;
+        this.notificationGateway = notificationGateway;
     }
 
     @Bean
@@ -64,7 +68,7 @@ public class UseCaseConfig {
 
     @Bean
     public CreateAlbumUseCase createAlbumUseCase() {
-        return new CreateAlbumUseCase(albumGateway);
+        return new CreateAlbumUseCase(albumGateway, notificationGateway);
     }
 
     @Bean
