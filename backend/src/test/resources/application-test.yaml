@@ -1,0 +1,27 @@
+# Perfil de teste - usado por testes de integração
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+
+# Desabilita rate limit nos testes
+rate-limit:
+  enabled: false
+
+# MinIO e API regional (não usadas nos testes de gateway)
+minio:
+  endpoint: http://localhost:9999
+  access-key: test
+  secret-key: test
+  bucket-name: test
+  presigned-url-expiration: 60
+
+api:
+  regional:
+    url: http://localhost:9998
+
+logging:
+  level:
+    root: WARN
+    br.com.rbsj.seplag: INFO
