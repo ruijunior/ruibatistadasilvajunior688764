@@ -34,6 +34,31 @@ spring:
     # Configuração customizada agora usa jwt.* na raiz
     enabled: true
 
+# Actuator - Health Checks (Liveness/Readiness)
+#
+# GET /actuator/health	Health geral (status UP/DOWN).
+# GET /actuator/health/liveness	Liveness – aplicação está viva.
+# GET /actuator/health/readiness	Readiness – aplicação pronta (DB ok; Kubernetes só envia tráfego se UP).
+# GET /actuator/info	Informações da aplicação (se configurado).
+#
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+    db:
+      enabled: true
+
 jwt:
   secret-key: ${JWT_SECRET:bXlzdXBlcnNlY3JldGtleWZvcnNlcGxhZ3Byb2plY3QyMDI2}
   expiration-ms: ${JWT_EXPIRATION:300000} # 5 minutos
