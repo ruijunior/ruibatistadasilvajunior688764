@@ -17,38 +17,28 @@ Java 21 · Spring Boot 3.2.3 · Gradle · Spring Security (JWT) · Spring Data J
 
 ## Arquitetura Geral
 
-Arquitetura baseada em **Clean Architecture** + **Hexagonal Architecture (Ports & Adapters)**:
-
-```
-[ Cliente REST/Postman ] → [ Spring Boot API ] → [ PostgreSQL ]
-                                      ↓
-                                 [ MinIO ]
-                                      ↓
-                            [ WebSocket (STOMP) ]
-                                      ↓
-                            [ API Externa (Feign) ]
-```
+Arquitetura baseada em **Clean Architecture** + **Hexagonal Architecture (Ports & Adapters)**
 
 ### Estrutura de Camadas
 
 ```
 br.com.rbsj.seplag/
-├── domain/          # Camada de Domínio (regras de negócio puras)
-│   ├── album/       # Entidades, Value Objects, Interfaces Gateway
-│   ├── artista/
-│   ├── regional/
-│   └── validation/
-├── application/     # Camada de Aplicação (Use Cases)
-│   ├── album/       # create, retrieve, update, upload
-│   ├── artista/
-│   └── regional/
-└── infrastructure/  # Camada de Infraestrutura (adaptadores)
-    ├── api/         # Controllers REST, exception (ApiError, GlobalExceptionHandler)
-    ├── album/       # Implementação Gateway (PostgreSQL)
-    ├── security/    # JWT, Rate Limit, Filtros
-    ├── storage/     # MinIO Gateway
-    ├── notification/# WebSocket Gateway
-    └── config/      # Configurações Spring
+  domain/          # Camada de Domínio (regras de negócio puras)
+    album/         # Entidades, Value Objects, Interfaces Gateway
+    artista/
+    regional/
+    validation/
+  application/     # Camada de Aplicação (Use Cases)
+    album/         # create, retrieve, update, upload
+    artista/
+    regional/
+  infrastructure/  # Camada de Infraestrutura (adaptadores)
+    api/           # Controllers REST, exception (ApiError, GlobalExceptionHandler)
+    album/         # Implementação Gateway (PostgreSQL)
+    security/      # JWT, Rate Limit, Filtros
+    storage/       # MinIO Gateway
+    notification/  # WebSocket Gateway
+    config/        # Configurações Spring
 ```
 
 ---
@@ -468,31 +458,6 @@ Notificações em tempo real (ex.: novo álbum cadastrado) sem polling. STOMP pa
 - [x] Código como produção (Clean Code, padrões, testes)
 - [x] Tratamento global de exceções (`@RestControllerAdvice` + `ApiError`)
 - [x] Logs estratégicos (SLF4J) em auth, álbuns, regionais, rate limit e erros
-
----
-
-## Estrutura do Projeto
-
-```
-backend/
-├── src/
-│   ├── main/
-│   │   ├── java/br/com/rbsj/seplag/
-│   │   │   ├── domain/          # Entidades, Value Objects, Gateways (interfaces)
-│   │   │   ├── application/     # Use Cases, Commands, Queries
-│   │   │   └── infrastructure/  # Controllers, exception (ApiError, GlobalExceptionHandler), Gateways (implementações)
-│   │   └── resources/
-│   │       ├── application.yaml # Configurações
-│   │       └── db/migration/    # Flyway migrations (V001__... até V007__...)
-│   └── test/
-│       ├── java/                # Testes unitários e integração
-│       └── resources/
-│           └── application-test.yaml # Perfil de teste
-├── build.gradle                 # Dependências e configuração Gradle
-├── Dockerfile                   # Multi-stage build
-├── docker-compose.yml           # Orquestração de containers
-└── README.md                    # Este arquivo
-```
 
 ---
 
