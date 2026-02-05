@@ -48,10 +48,6 @@ public class RegionalJpaEntity extends AuditableEntity {
         return idExterno;
     }
 
-    public void setIdExterno(Integer idExterno) {
-        this.idExterno = idExterno;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -64,7 +60,4 @@ public class RegionalJpaEntity extends AuditableEntity {
         return ativo;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
 }

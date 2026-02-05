@@ -18,6 +18,7 @@ public class WebSocketNotificationGateway implements NotificationGateway {
 
     @Override
     public void notifyNewAlbum(Album album) {
+
         log.debug("Notificando novo álbum via WebSocket: id={} titulo={}", album.getId().getValue(), album.getTitulo());
         template.convertAndSend("/topic/albuns", album);
     }

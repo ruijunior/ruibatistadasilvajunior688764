@@ -47,9 +47,11 @@ public class AlbumController {
 
     @PostMapping
     public ResponseEntity<AlbumResponse> create(@RequestBody CreateAlbumRequest request) {
+
         log.info("Criando álbum: titulo={} anoLancamento={}", request.titulo(), request.anoLancamento());
         var command = CreateAlbumCommand.with(request.titulo(), request.anoLancamento(), request.artistas());
         var output = createUseCase.execute(command);
+
         log.info("Álbum criado: id={} titulo={}", output.id(), output.titulo());
         return ResponseEntity
                 .created(URI.create("/api/v1/albuns/" + output.id()))

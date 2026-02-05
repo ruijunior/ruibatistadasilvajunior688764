@@ -37,7 +37,6 @@ public class MinioStorageGateway implements StorageGateway {
                             .bucket(bucketName)
                             .object(objectName)
                             .expiry(expiration, TimeUnit.SECONDS)
-                            //.extraQueryParams(Map.of("response-content-type", contentType))
                             .build()
             );
         } catch (Exception e) {

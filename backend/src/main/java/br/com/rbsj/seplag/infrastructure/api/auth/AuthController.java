@@ -37,6 +37,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+
         log.info("Tentativa de login: username={}", request.username());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password())
@@ -47,12 +48,14 @@ public class AuthController {
         var refreshToken = jwtService.generateRefreshToken(userDetails);
         
         var response = LoginResponse.from(accessToken, refreshToken, jwtExpiration);
+
         log.info("Login realizado com sucesso: username={}", request.username());
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponse> refresh(@RequestBody RefreshTokenRequest request) {
+
         log.debug("Tentativa de refresh token");
         String username = jwtService.extractUsername(request.refreshToken());
         
@@ -64,6 +67,7 @@ public class AuthController {
                 var refreshToken = jwtService.generateRefreshToken(userDetails); 
                 
                 var response = LoginResponse.from(accessToken, refreshToken, jwtExpiration);
+
                 log.info("Refresh token realizado com sucesso: username={}", username);
                 return ResponseEntity.ok(response);
             }

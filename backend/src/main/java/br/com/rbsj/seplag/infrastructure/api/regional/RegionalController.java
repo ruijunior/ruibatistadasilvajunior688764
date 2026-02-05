@@ -33,11 +33,14 @@ public class RegionalController {
 
     @PostMapping("/sync")
     public ResponseEntity<SyncRegionaisResponse> sync() {
+
         log.info("Iniciando sincronização de regionais com API externa");
         var output = syncUseCase.execute();
+
         log.info("Sincronização concluída: inseridas={} inativadas={} recriadas={}",
                 output.inseridas(), output.inativadas(), output.recriadas());
         var response = SyncRegionaisResponse.from(output);
+
         return ResponseEntity.ok(response);
     }
 }
