@@ -78,6 +78,9 @@ public class Album extends Entity {
         if (titulo == null || titulo.trim().isEmpty()) {
             throw new IllegalArgumentException("Título do álbum é obrigatório");
         }
+        if (artistas == null || artistas.isEmpty()) {
+            throw new IllegalArgumentException("O álbum deve ter pelo menos um artista");
+        }
     }
 
     public void validate(ValidationHandler handler) {

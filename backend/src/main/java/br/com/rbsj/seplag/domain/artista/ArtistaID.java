@@ -11,6 +11,9 @@ public class ArtistaID extends Identifier {
 
     private ArtistaID(String value) {
         this.value = Objects.requireNonNull(value);
+        if (this.value.trim().isEmpty()) {
+            throw new IllegalArgumentException("ID do artista não pode ser vazio");
+        }
     }
 
     public static ArtistaID unique() {

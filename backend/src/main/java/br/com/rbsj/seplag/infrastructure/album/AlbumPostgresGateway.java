@@ -38,9 +38,9 @@ public class AlbumPostgresGateway implements AlbumGateway {
         var entity = mapper.toEntity(album);
         
         album.getArtistas().forEach(artistaID -> {
-            artistaRepository.findById(artistaID.getValue()).ifPresent(artistaEntity -> 
-                entity.getArtistas().add(artistaEntity)
-            );
+            var artistaEntity = artistaRepository.findById(artistaID.getValue())
+                    .orElseThrow(() -> new IllegalArgumentException("Artista não encontrado: " + artistaID.getValue()));
+            entity.getArtistas().add(artistaEntity);
         });
         
         var saved = repository.save(entity);
@@ -57,9 +57,9 @@ public class AlbumPostgresGateway implements AlbumGateway {
         // Manter artistas sincronizados
         entity.getArtistas().clear(); // Limpa e readiciona para garantir sync
         album.getArtistas().forEach(artistaID -> {
-            artistaRepository.findById(artistaID.getValue()).ifPresent(artistaEntity ->
-                entity.getArtistas().add(artistaEntity)
-            );
+            var artistaEntity = artistaRepository.findById(artistaID.getValue())
+                    .orElseThrow(() -> new IllegalArgumentException("Artista não encontrado: " + artistaID.getValue()));
+            entity.getArtistas().add(artistaEntity);
         });
 
         var updated = repository.save(entity);
