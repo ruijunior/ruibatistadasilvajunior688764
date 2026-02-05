@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -143,6 +144,11 @@ public class GlobalExceptionHandler {
 
         if (ex.getCause() instanceof InvalidFormatException iex) {
             msg = "Campo '" + iex.getPath().get(0).getFieldName() + "' com formato inválido";
+            
+            if (iex.getTargetType() != null && iex.getTargetType().isEnum()) {
+                String allowed = Arrays.toString(iex.getTargetType().getEnumConstants());
+                msg += ". Valores aceitos: " + allowed;
+            }
         }
 
         log.warn("Erro de JSON: path={} message={}", path, msg);
