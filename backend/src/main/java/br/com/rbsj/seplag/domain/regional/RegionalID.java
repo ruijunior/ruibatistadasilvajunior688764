@@ -6,31 +6,23 @@ import java.util.Objects;
 
 public class RegionalID extends Identifier {
 
-    private final Long value;
+    private final String value;
 
-    private RegionalID(Long value) {
-        this.value = value;
+    private RegionalID(String value) {
+        this.value = Objects.requireNonNull(value);
     }
 
-    public static RegionalID from(Long id) {
+    public static RegionalID from(String id) {
         return new RegionalID(id);
     }
-    
-    public static RegionalID from(String id) {
-        try {
-            return new RegionalID(Long.parseLong(id));
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("ID inválido para Regional: " + id);
-        }
-    }
 
-    public Long asLong() {
-        return value;
+    public static RegionalID from(java.util.UUID id) {
+        return new RegionalID(id.toString());
     }
 
     @Override
     public String getValue() {
-        return String.valueOf(value);
+        return value;
     }
 
     @Override
