@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Component
 public class AlbumPostgresGateway implements AlbumGateway {
 
@@ -34,6 +36,7 @@ public class AlbumPostgresGateway implements AlbumGateway {
     }
 
     @Override
+    @Transactional
     public Album create(Album album) {
         var entity = mapper.toEntity(album);
         
@@ -48,6 +51,7 @@ public class AlbumPostgresGateway implements AlbumGateway {
     }
 
     @Override
+    @Transactional
     public Album update(Album album) {
         var entity = repository.findById(album.getId().getValue())
                 .orElseThrow(() -> new IllegalArgumentException("Album not found"));

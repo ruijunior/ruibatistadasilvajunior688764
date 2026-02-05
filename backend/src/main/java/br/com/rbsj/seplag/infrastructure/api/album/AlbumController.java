@@ -14,6 +14,7 @@ import br.com.rbsj.seplag.application.album.upload.GeneratePresignedUrlCommand;
 import br.com.rbsj.seplag.application.album.upload.GeneratePresignedUrlOutput;
 import br.com.rbsj.seplag.application.album.upload.GeneratePresignedUrlUseCase;
 import br.com.rbsj.seplag.infrastructure.api.PaginatedResponse;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class AlbumController {
     }
 
     @PostMapping
-    public ResponseEntity<AlbumResponse> create(@RequestBody CreateAlbumRequest request) {
+    public ResponseEntity<AlbumResponse> create(@RequestBody @Valid CreateAlbumRequest request) {
 
         log.info("Criando álbum: titulo={} anoLancamento={}", request.titulo(), request.anoLancamento());
         var command = CreateAlbumCommand.with(request.titulo(), request.anoLancamento(), request.artistas());

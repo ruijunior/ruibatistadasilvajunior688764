@@ -36,7 +36,7 @@ public class ArtistaController {
     }
 
     @PostMapping
-    public ResponseEntity<ArtistaResponse> create(@RequestBody CreateArtistaRequest request) {
+    public ResponseEntity<ArtistaResponse> create(@RequestBody @jakarta.validation.Valid CreateArtistaRequest request) {
         var command = CreateArtistaCommand.with(request.nome(), request.tipo());
         var output = createUseCase.execute(command);
         
@@ -54,7 +54,7 @@ public class ArtistaController {
     @PutMapping("/{id}")
     public ResponseEntity<ArtistaResponse> update(
             @PathVariable String id,
-            @RequestBody UpdateArtistaRequest request
+            @RequestBody @jakarta.validation.Valid UpdateArtistaRequest request
     ) {
         var command = UpdateArtistaCommand.with(id, request.nome(), request.tipo());
         var output = updateUseCase.execute(command);
