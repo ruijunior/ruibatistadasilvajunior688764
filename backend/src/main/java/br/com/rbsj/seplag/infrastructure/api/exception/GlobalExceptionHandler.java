@@ -1,10 +1,13 @@
 package br.com.rbsj.seplag.infrastructure.api.exception;
 
 import br.com.rbsj.seplag.domain.validation.DomainException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,7 +18,6 @@ import java.util.List;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiError> handleIllegalArgument(
@@ -78,9 +80,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
     }
 
-    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+    @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiError> handleAuthenticationException(
-            org.springframework.security.core.AuthenticationException ex,
+            AuthenticationException ex,
             HttpServletRequest request
     ) {
         String path = request.getRequestURI();
@@ -129,5 +131,22 @@ public class GlobalExceptionHandler {
                 path
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiError> handleJsonError(
+            HttpMessageNotReadableException ex,
+            HttpServletRequest request
+    ) {
+        String path = request.getRequestURI();
+        String msg = "Formato JSON inválido ou campos incorretos.";
+
+        if (ex.getCause() instanceof InvalidFormatException iex) {
+            msg = "Campo '" + iex.getPath().get(0).getFieldName() + "' com formato inválido";
+        }
+
+        log.warn("Erro de JSON: path={} message={}", path, msg);
+        ApiError body = ApiError.of(HttpStatus.BAD_REQUEST.value(), "Bad Request", msg, path);
+        return ResponseEntity.badRequest().body(body);
     }
 }

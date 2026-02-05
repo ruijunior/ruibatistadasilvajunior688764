@@ -5,6 +5,10 @@ spring:
   application:
     name: catalogo-artistas-api
 
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:catalogo_db}
     username: ${DB_USER:postgres}
