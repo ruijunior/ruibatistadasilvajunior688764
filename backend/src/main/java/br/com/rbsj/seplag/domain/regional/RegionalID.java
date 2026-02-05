@@ -3,7 +3,6 @@ package br.com.rbsj.seplag.domain.regional;
 import br.com.rbsj.seplag.domain.Identifier;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class RegionalID extends Identifier {
 
@@ -21,8 +20,6 @@ public class RegionalID extends Identifier {
         try {
             return new RegionalID(Long.parseLong(id));
         } catch (NumberFormatException e) {
-            // Em caso de UUID legado ou erro, lida ou propaga. 
-            // Para manter compatibilidade com contrato Identifier string, o parse é necessário.
             throw new IllegalArgumentException("ID inválido para Regional: " + id);
         }
     }

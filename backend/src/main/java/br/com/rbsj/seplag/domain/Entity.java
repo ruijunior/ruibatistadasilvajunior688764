@@ -12,11 +12,6 @@ public abstract class Entity {
         this.atualizadoEm = atualizadoEm;
     }
 
-    protected Entity() {
-        this.criadoEm = Instant.now();
-        this.atualizadoEm = Instant.now();
-    }
-
     public abstract void validate();
 
     public Instant getCriadoEm() {

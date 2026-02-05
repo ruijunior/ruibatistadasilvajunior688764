@@ -8,8 +8,6 @@ public abstract class ValidationHandler {
 
     public abstract ValidationHandler validate(Validation validation);
 
-    public abstract boolean hasErrors();
-
     public interface Validation {
         void validate();
     }
