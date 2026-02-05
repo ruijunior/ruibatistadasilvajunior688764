@@ -113,6 +113,25 @@ Exemplo:
 }
 ```
 
+### Validação de Entrada
+
+A API implementa validação em múltiplas camadas:
+
+- **Bean Validation (JSR 380):** DTOs anotados com `@NotBlank`, `@NotNull`, `@NotEmpty`, `@Max`
+- **Validação de Enum:** Valores inválidos retornam mensagem amigável com opções aceitas
+- **Campos Desconhecidos:** JSON com propriedades não mapeadas é rejeitado (`fail-on-unknown-properties`)
+- **Validação de Domínio:** Entidades validam regras de negócio (ex: título max 200 chars, álbum precisa de artista)
+
+**Exemplo de erro de Enum inválido:**
+```json
+{
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Campo 'tipo' com formato inválido. Valores aceitos: [CANTOR, BANDA]",
+  "path": "/api/v1/artistas"
+}
+```
+
 ### Logs (SLF4J)
 
 Logs estratégicos em pontos chave (auth, criação de álbum, sync de regionais, rate limit, erros de storage e exceções tratadas). Níveis: INFO (operações principais), WARN (auth/refresh rejeitado, rate limit, exceções 4xx), ERROR (MinIO, exceções 5xx), DEBUG (notificação WebSocket). Configurável em `application.yaml` (`logging.level.br.com.rbsj.seplag`).
@@ -184,11 +203,11 @@ PRIMARY KEY (artista_id, album_id)
 
 #### Tabela: `regionais`
 ```sql
-id          BIGSERIAL PK
-id_externo  INTEGER UNIQUE
-nome        VARCHAR(200) NOT NULL
-ativo       BOOLEAN NOT NULL DEFAULT true
-criado_em   TIMESTAMP NOT NULL
+id            VARCHAR(255) PK (UUID auto-gerado)
+id_externo    INTEGER (ID da API externa)
+nome          VARCHAR(200) NOT NULL
+ativo         BOOLEAN NOT NULL DEFAULT true
+criado_em     TIMESTAMP NOT NULL
 atualizado_em TIMESTAMP NOT NULL
 ```
 
