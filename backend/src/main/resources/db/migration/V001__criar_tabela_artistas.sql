@@ -1,5 +1,5 @@
 CREATE TABLE artistas (
-    id BIGSERIAL PRIMARY KEY,
+    id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid()::varchar,
     nome VARCHAR(200) NOT NULL,
     tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('CANTOR', 'BANDA')),
     criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

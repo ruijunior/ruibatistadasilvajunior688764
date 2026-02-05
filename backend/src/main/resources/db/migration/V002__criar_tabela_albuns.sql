@@ -1,5 +1,5 @@
 CREATE TABLE albuns (
-    id BIGSERIAL PRIMARY KEY,
+    id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid()::varchar,
     titulo VARCHAR(200) NOT NULL,
     ano_lancamento INTEGER,
     url_capa VARCHAR(500),
