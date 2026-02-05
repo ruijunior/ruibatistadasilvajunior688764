@@ -9,10 +9,10 @@ public record AlbumListOutput(
         String id,
         String titulo,
         Integer anoLancamento,
-        java.util.Set<String> capas,
+        Set<String> capas,
         Set<String> artistaIds
 ) {
-    public static AlbumListOutput from(Album album, java.util.Set<String> signedCapas) {
+    public static AlbumListOutput from(Album album, Set<String> signedCapas) {
         return new AlbumListOutput(
                 album.getId().getValue(),
                 album.getTitulo(),

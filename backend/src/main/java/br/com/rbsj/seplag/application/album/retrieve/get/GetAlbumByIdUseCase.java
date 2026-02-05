@@ -2,15 +2,16 @@ package br.com.rbsj.seplag.application.album.retrieve.get;
 
 import br.com.rbsj.seplag.domain.album.AlbumGateway;
 import br.com.rbsj.seplag.domain.album.AlbumID;
+import br.com.rbsj.seplag.domain.storage.StorageGateway;
 
 import java.util.Objects;
 
 public class GetAlbumByIdUseCase {
 
     private final AlbumGateway gateway;
-    private final br.com.rbsj.seplag.domain.storage.StorageGateway storageGateway;
+    private final StorageGateway storageGateway;
 
-    public GetAlbumByIdUseCase(AlbumGateway gateway, br.com.rbsj.seplag.domain.storage.StorageGateway storageGateway) {
+    public GetAlbumByIdUseCase(AlbumGateway gateway, StorageGateway storageGateway) {
         this.gateway = Objects.requireNonNull(gateway);
         this.storageGateway = Objects.requireNonNull(storageGateway);
     }
